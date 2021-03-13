@@ -3,11 +3,9 @@ const router = express.Router()
 const User = require('../models/Users.js') // import the user model from mongodb
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv') // used for environment variables
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/vanderbilt_dashboard";
 
-
-
-dotenv.config() 
 
 // Routes
 
@@ -46,18 +44,15 @@ router.post('/login', async (req, res) => {
 
 	if (await bcrypt.compare(password, user.password)) {
 		// the username, password combination is successful
-
 		const token = jwt.sign(
 			{
 				id: user._id,
 				username: user.username
 			},
-			process.env.JWT_SECRET
+			JWT_SECRET
 		)
 
 		return res.json({ status: 'ok', user: user.username , token: token })
-		
-		
 	}
     // else
 
@@ -67,7 +62,22 @@ router.post('/login', async (req, res) => {
 
 
 
+// grab all items from the database and send in response
+router.get('/data',  (req, res) => {
+	
+	MongoClient.connect(url , (err, client) => {
+    	if(err) throw err;
 
+    	let database = client.db('vanderbilt_dashboard');
 
+    	database.collection('participants').find()
+    	.toArray((err, results) => {
+        	if(err) throw err;
+			
+	   	res.jsonp(results);
+	
+    	})
+	})
+})
 
 module.exports = router
