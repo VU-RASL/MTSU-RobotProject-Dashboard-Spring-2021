@@ -5,6 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './layouts/Home';
 
+
+
+
 function App() {
 
   return (
@@ -13,8 +16,8 @@ function App() {
 
       <Navbar/>
 
-
       <div class = "container">
+      
       <Switch>
       
       <Route exact path="/register"> 

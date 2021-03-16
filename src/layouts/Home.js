@@ -1,22 +1,34 @@
 // this is code for the home page (dashboard)
 import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
+import Agechart from '../components/Agechart'
+import HighestLvlChart from '../components/HighestLvlChart'
 
-function Home() {
 
+
+class Home extends Component{
+
+
+    render(){
         return(
-            // add your code for the html below...
-          
+        
+
+            <div className="Home">
             
-            <div className="jumbotron my-auto">
+            <h1 className="display-3">This is the Homepage!</h1>
             
-            <h1 className="display-3">Hello, world!</h1>
+               
+            {/* place Bchart and Rankchart in the view*/ }
+                                    
+            <Agechart/>
+            <HighestLvlChart/>
+
             </div>
              
-
+           
         )
     }
 
 
-
+}
 export default Home;

@@ -70,11 +70,10 @@ router.get('/data',  (req, res) => {
 
     	let database = client.db('vanderbilt_dashboard');
 
-    	database.collection('participants').find()
-    	.toArray((err, results) => {
+    	database.collection('participants').find({}).toArray(function(err, results){
         	if(err) throw err;
 			
-	   	res.jsonp(results);
+	   		res.jsonp(results);
 	
     	})
 	})
