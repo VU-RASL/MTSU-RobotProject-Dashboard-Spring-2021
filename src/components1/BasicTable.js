@@ -13,7 +13,7 @@ export const BasicTable = () => {
         columns: columns,
         data: data  
     })
-
+z
     const  {
         getTableProps, 
         getTableBodyProps, 
