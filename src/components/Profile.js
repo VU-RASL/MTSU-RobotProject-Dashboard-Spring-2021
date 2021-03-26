@@ -20,18 +20,18 @@ class Profile extends Component{
 
     componentDidMount() {
 
-        const params =  {
-            name:'Mark Trover'
-
+        const registered = { // this will gather the user/pass to send to backend
+            name: "Mark Trover"
+           
         }
-        axios.get('http://localhost:4000/username',{params})
-            .then(res => {
-                console.log(res.data)
-                this.setState({ data: res.data });
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+    
+        axios.post('http://localhost:4000/app/username',registered)
+        .then(res => {
+
+            this.setState({data:res.data.data})
+           
+
+        })
     }
 
 
@@ -45,6 +45,7 @@ class Profile extends Component{
             
             <h1 className="display-3">This is profile page!</h1>
 
+            <h2>{this.state.data.name}</h2>
             
 
             </div>

@@ -16,7 +16,7 @@ import '../components/search.css';
   function onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
 
 
-    if (method == 'click' || method == 'enter'){
+    if (method === 'click' || method === 'enter'){
       var username = suggestionValue
 
      

@@ -88,17 +88,14 @@ router.get('/data',  (req, res) => {
 
 
 // grab all items from the database and send in response
-router.get('/username',  (req, res) => {
+router.post('/username', async (req, res) => {
 	
-	
-	//const username = req.params.username;
-	
-	MongoClient.connect(url , (err, client) => {
+	await MongoClient.connect(url , (err, client) => {
     	if(err) throw err;
 
     	let database = client.db('vanderbilt_dashboard');
 
-    	database.collection('participants').findOne({name:req.query.name},(err, results) => {
+    	database.collection('participants').findOne({name:req.body.name},(err, results) => {
 			
 				if (err ) {
 					res.json({ status: 'not found '})
@@ -106,7 +103,7 @@ router.get('/username',  (req, res) => {
 				}
 				else
 				{
-					res.json(results)
+					res.json({data: results})
 					//res.render('login', { ...results, username });
 				}
 				
