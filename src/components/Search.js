@@ -17,8 +17,12 @@ import '../components/search.css';
 
 
     if (method == 'click' || method == 'enter'){
+      var username = suggestionValue
 
-      window.location.href = "http://localhost:3000";
+     
+
+      window.location.href = "http://localhost:3000/:username/" + username;
+    
 
     }
 

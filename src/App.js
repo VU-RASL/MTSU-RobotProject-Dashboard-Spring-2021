@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar'
+import Profile from './components/Profile'
 import Test from './components1/Test'
 import Register from './layouts/Register'
 import Login from './layouts/Login'
@@ -35,8 +36,10 @@ function App() {
       </Route>
 
       <Route exact path="/test">
-            <Test />
+            <Profile />
       </Route>
+
+   
 
 
       </Switch>
