@@ -11,6 +11,7 @@
     "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",
     "react": "^17.0.1",
+    "react-autosuggest": "^10.1.0",
     "react-bootstrap-table": "^4.3.1",
     "react-chartjs-2": "^2.11.1",
     "react-dom": "^17.0.1",

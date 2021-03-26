@@ -19,9 +19,11 @@ class Home extends Component{
             
                
             {/* place Bchart and Rankchart in the view*/ }
-                                    
+
             <Agechart/>
+            
             <HighestLvlChart/>
+           
 
             </div>
              

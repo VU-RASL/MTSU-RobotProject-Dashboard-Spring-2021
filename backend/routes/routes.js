@@ -79,4 +79,26 @@ router.get('/data',  (req, res) => {
 	})
 })
 
+
+
+
+// grab all items from the database and send in response
+router.post('/find',  async (req, res) => {
+	const { query } = req.body
+	
+	MongoClient.connect(url , (err, client) => {
+    	if(err) throw err;
+
+    	let database = client.db('vanderbilt_dashboard');
+
+    	database.collection('participants').find({name:query}).toArray(function(err, results){
+        	if(err) throw err;
+			
+	   		res.jsonp(results);
+	
+    	})
+	})
+})
+
+
 module.exports = router

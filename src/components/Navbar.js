@@ -1,6 +1,7 @@
 // navbar code goes here
 import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
+import Search from '../components/Search'
 
 class Navbar extends Component{
 
@@ -21,6 +22,8 @@ class Navbar extends Component{
       <a class="nav-item nav-link" href="/register">Register</a>
     </div>
   </div>
+  <Search/>
+  
 </nav>
         )
 
