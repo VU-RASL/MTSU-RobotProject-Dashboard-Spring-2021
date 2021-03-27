@@ -2,33 +2,12 @@ import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios'
 import '../components/search.css';
-
-
-
-
+import { Link } from 'react-router-dom';
 
 
   function shouldRenderSuggestions() {
     return true;
   }
-
-
-  function onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
-
-
-    if (method === 'click' || method === 'enter'){
-      var username = suggestionValue
-
-     
-
-      window.location.href = "http://localhost:3000/:username/" + username;
-    
-
-    }
-
-
-  }
-
 
 
   
@@ -39,8 +18,12 @@ import '../components/search.css';
   
   // Use your imagination to render suggestions.
   const renderSuggestion = suggestion => (
+    // user selects a name from list.. will be a link that takes them to their specific 
+    // page
     <div>
-      {suggestion.name}
+
+<Link to={{pathname:'/participant_profile',state:{name:suggestion.name}}} >{suggestion.name}</Link>
+     
     </div>
   );
 
@@ -148,7 +131,7 @@ class Search extends React.Component {
           renderSuggestion={renderSuggestion}
           shouldRenderSuggestions={shouldRenderSuggestions}
           inputProps={inputProps}
-          onSuggestionSelected = {onSuggestionSelected}
+          
           
         />
       );

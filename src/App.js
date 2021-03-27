@@ -10,7 +10,6 @@ import Home from './layouts/Home';
 
 
 
-
 function App() {
 
   return (
@@ -31,16 +30,18 @@ function App() {
             <Login />
       </Route>
 
-      <Route exact path="/">
-            <Home />
+      <Route exact path="/" component={Home}>
+            
       </Route>
 
       <Route exact path="/test">
-            <Profile />
+        <Test/>
+            
       </Route>
 
-   
-
+      <Route exact path="/participant_profile" component={Profile}>
+            
+      </Route>
 
       </Switch>
       </div>

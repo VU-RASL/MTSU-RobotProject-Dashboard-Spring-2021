@@ -1,7 +1,7 @@
 // navbar code goes here
 import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
-import Search from '../components/Search'
+
 
 class Navbar extends Component{
 
@@ -18,11 +18,13 @@ class Navbar extends Component{
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="/login">Login</a>
+      </div>
+      <div class="navbar-nav ml-auto">
+      <a class="nav-item nav-link" href="/login" >Login</a>
       <a class="nav-item nav-link" href="/register">Register</a>
     </div>
   </div>
-  <Search/>
+
   
 </nav>
         )
