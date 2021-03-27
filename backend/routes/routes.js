@@ -82,23 +82,46 @@ router.get('/data',  (req, res) => {
 
 
 
+
+
+
+
+
 // grab all items from the database and send in response
-router.post('/find',  async (req, res) => {
-	const { query } = req.body
+router.post('/username', async (req, res) => {
 	
-	MongoClient.connect(url , (err, client) => {
+	await MongoClient.connect(url , (err, client) => {
     	if(err) throw err;
 
     	let database = client.db('vanderbilt_dashboard');
 
-    	database.collection('participants').find({name:query}).toArray(function(err, results){
-        	if(err) throw err;
+    	database.collection('participants').findOne({name:req.body.name},(err, results) => {
 			
-	   		res.jsonp(results);
-	
-    	})
-	})
-})
+				if (err ) {
+					res.json({ status: 'not found '})
+					//res.render('public-profile', { messages: { error: ['User not found'] } });
+				}
+				else
+				{
+					res.json({data: results})
+					//res.render('login', { ...results, username });
+				}
+				
+				//res.render('public-profile', { ...results, username });
+			  });
+			})
+		}
+)
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router
