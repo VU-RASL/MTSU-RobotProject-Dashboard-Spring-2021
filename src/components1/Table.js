@@ -1,6 +1,6 @@
 // Table.js
-import React from "react";
-import { useTable } from "react-table";
+import { useTable,useExpanded  } from "react-table";
+import './table.css';
 
 export default function Table({ columns, data }) {
   // Use the useTable Hook to send the columns and data to build the table
@@ -13,7 +13,8 @@ export default function Table({ columns, data }) {
   } = useTable({
     columns,
     data
-  });
+  },
+  useExpanded);
 
   /* 
     Render the UI for your table
@@ -32,6 +33,7 @@ export default function Table({ columns, data }) {
       </thead>
       <tbody {...getTableBodyProps()}>
         {rows.map((row, i) => {
+          {console.log(row)}
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>

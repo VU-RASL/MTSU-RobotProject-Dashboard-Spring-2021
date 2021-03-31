@@ -28,7 +28,7 @@ class Agechart extends Component{
         .get('http://localhost:4000/app/data')
         .then(res => {
          
-            console.log(res);
+            //console.log(res);
          for (const dataObj of res.data){
             names.push(dataObj.name)
             ages.push((parseInt(dataObj.age))
@@ -68,9 +68,9 @@ class Agechart extends Component{
             this.setState({chartData:mychartData})
        }).catch(err => {
     
-        console.log(err);
+       // console.log(err);
        })
-       console.log(names,ages)
+       //console.log(names,ages)
     }
 
    
@@ -86,7 +86,8 @@ render(){
             data={this.state.chartData}
 
             options={{ 
-               
+                responsive: true,
+                maintainAspectRatio: true,
                 title:{
                     display:true,
                     text: "Age compare",

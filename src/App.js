@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import Profile from './components/Profile'
 import Test from './components1/Test'
+import Datagrid2 from './components1/Datagrid2'
 import Register from './layouts/Register'
 import Login from './layouts/Login'
 import "bootstrap/dist/css/bootstrap.min.css"
