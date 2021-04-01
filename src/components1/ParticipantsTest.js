@@ -29,14 +29,15 @@ function ParticipantTest() {
             var segment = response.data[0];
             var taskList = [];
             for (var key in segment) {
-                console.log("Key: " + key);
-                console.log("Value: " + segment[key]);
+                // collecting all task labels
                 if (key !== "_id" && key!=="name" && key!=="age") {
                     taskList.push(key);
                 }
             }
 
             participants.map((participant) => {
+                // for every participant, we add extra labels for highest level played 
+                // and highest score in highest level for each task
                 for (var task in taskList) {
                     var taskName = taskList[task];
                     var hLevelLabel = taskName + "_hLevel";
@@ -48,8 +49,9 @@ function ParticipantTest() {
                     participant[hScoreLabel] = hScoreOfLevel;
                 }
             });
-            console.log("Participants list before ranking : " + participants);
             for (var task in taskList) {
+                // for every task, we sort the participants based on highest level played 
+                // and highest score in the highest level and assign the ranks after sorting the data
                 var taskName = taskList[task];
                 var hLevelLabel = taskName + "_hLevel";
                 var hScoreLabel = taskName + "_hScoreOfLevel";
@@ -62,9 +64,8 @@ function ParticipantTest() {
                     participant[taskRankLabel] = ++rank;
                 });
             }
-            console.log("Participants list after ranking : " + participants);
           // }
-
+        // As column 'Name' is always present, we do need it to be constructed dynamically
           var myCols = [
               {
                   Header: 'Name',
@@ -74,6 +75,7 @@ function ParticipantTest() {
           for (var task in taskList) {
             var taskName = taskList[task];
             var taskRankLabel = taskName + "_rank";
+            // for every task, we get add a column to the table to display the ranks
             myCols.push( {
                 Header: taskRankLabel,
                 accessor: taskRankLabel
@@ -86,15 +88,7 @@ function ParticipantTest() {
           })
 
           var myData = participants
-          
-          //delete age and id property from the the response data
-        //   for(var i = 0; i < myData.length; i++){
-        //     delete myData[i].age
-        //     delete myData[i]._id
-        //     delete myData[i].musical_task_data.level_history_data
-        //     delete myData[i].paint_task_data.level_history_data
-        //   }
-         
+
 
           // set the Data and Cols States
           setCols(myCols)

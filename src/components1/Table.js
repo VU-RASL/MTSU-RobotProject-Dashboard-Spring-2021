@@ -1,5 +1,5 @@
 // Table.js
-import { useTable,useExpanded  } from "react-table";
+import { useTable, useSortBy  } from "react-table";
 import './table.css';
 
 export default function Table({ columns, data }) {
@@ -14,7 +14,7 @@ export default function Table({ columns, data }) {
     columns,
     data
   },
-  useExpanded);
+  useSortBy);
 
   /* 
     Render the UI for your table
@@ -26,7 +26,9 @@ export default function Table({ columns, data }) {
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
+                 <span>{column.isSorted ? (column.isSortedDesc ? '   ▼': '   ▲') : ''}</span>
+              </th>
             ))}
           </tr>
         ))}
