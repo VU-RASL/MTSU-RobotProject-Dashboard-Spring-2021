@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import Profile from './components/Profile'
 import Test from './components1/Test'
+import ParticipantTest from './components1/ParticipantsTest'
 import Datagrid2 from './components1/Datagrid2'
 import Register from './layouts/Register'
 import Login from './layouts/Login'
@@ -36,7 +37,7 @@ function App() {
       </Route>
 
       <Route exact path="/test">
-        <Test/>
+        <ParticipantTest/>
             
       </Route>
 
