@@ -1,6 +1,6 @@
 // Table.js
-import React from "react";
-import { useTable, useExpanded  } from "react-table";
+import { useTable, useSortBy  } from "react-table";
+import './table.css';
 
 export default function Table({ columns, data }) {
   // Use the useTable Hook to send the columns and data to build the table
@@ -13,7 +13,8 @@ export default function Table({ columns, data }) {
   } = useTable({
     columns,
     data
-  });
+  },
+  useSortBy);
 
   /* 
     Render the UI for your table
@@ -25,13 +26,16 @@ export default function Table({ columns, data }) {
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
+                 <span>{column.isSorted ? (column.isSortedDesc ? '   ▼': '   ▲') : ''}</span>
+              </th>
             ))}
           </tr>
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
         {rows.map((row, i) => {
+          {console.log(row)}
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>

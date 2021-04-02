@@ -23,7 +23,7 @@ class HighestLvlChart extends Component{
         let rank = [];
         axios.get('http://localhost:4000/app/data').then(res => {
 
-        console.log(res);
+        //console.log(res);
          for (const dataObj of res.data){
             names.push(dataObj.name)
             rank.push((parseInt(dataObj.musical_task_data.highest_level_played))
@@ -59,7 +59,7 @@ class HighestLvlChart extends Component{
             this.setState({chartData:mychartData})
        }).catch(err => {
     
-        console.log(err);
+        //console.log(err);
        })
        //console.log(names,rank)  
     }
@@ -73,6 +73,8 @@ render(){
             data={this.state.chartData}
 
             options={{ 
+                responsive: true,
+                maintainAspectRatio: true,
                
                 title:{
                     display:true,

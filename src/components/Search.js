@@ -92,7 +92,8 @@ class Search extends React.Component {
     // if user click box and doesnt enter text , then show all names else if they enter text start filtering
     return inputLength === 0 ?  this.state.results.filter(result =>
       result.name) : this.state.results.filter(result =>
-      result.name.toLowerCase().slice(0, inputLength) === inputValue
+      result.name.toLowerCase().includes(inputValue)
+      // result.name.toLowerCase().slice(0, inputLength) === inputValue // commented this to avoid searching from the start
       
     );
   };
