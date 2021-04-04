@@ -2,21 +2,25 @@
 
 import React, {Component} from 'react';
 import {Line} from 'react-chartjs-2'
-import axios from 'axios'
 import 'chartjs-plugin-colorschemes';
 
 
 class LineChart extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            chartData:null
+            chartData:null,
+            data:this.props.data,
+            label:this.props.label,
+            text:this.props.text
+            
                 
         }
-        
+       
     }
 
-    componentWillMount(){
+    componentDidMount(){
+       
 
         this.getChartData();
         
@@ -24,53 +28,34 @@ class LineChart extends Component{
 
 
     getChartData(){
-        let runs = [];
-        let points = null;
-        let pn = []
-        axios
-        .get('http://localhost:4000/app/data')
-        .then(res => {
-         
-            //console.log(res);
-            runs = res.data[0].musical_task_data.level_history_data.level_1.run_1
-            points = runs.length
-
-            for (var i = 0; i < points;i++)
-            {
-                pn.push(i)
-            }
-
-
-         
-            var mychartData = {  
+       
+        var mychartData = {  
             
-                labels: pn,
+            labels: this.state.label,
                 
-                datasets:[
-                {
+            datasets:[
+            {
                     
-                    label:"run",
-                    data: runs,
-                    fill:false,
+                label:"run",
+                data: this.state.data,
+                fill:false,
                     
-                    borderWidth:1
-                }
-            
-                ]
+                borderWidth:1
             }
-
-            this.setState({chartData:mychartData})
-       }).catch(err => {
-    
-       // console.log(err);
-       })
-       //console.log(names,ages)
+            
+            ]
+        }
+   
+    this.setState({chartData:mychartData})
     }
+    
+    
 
    
 
 
 render(){
+    
     return (
 
         <div className="chart">
@@ -84,7 +69,7 @@ render(){
                 maintainAspectRatio: true,
                 title:{
                     display:true,
-                    text: "Mark Trover lvl history - level 1/ run 1",
+                    text:this.state.text,
                     fontSize:30
 
                 },
