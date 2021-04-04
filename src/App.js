@@ -1,8 +1,6 @@
 import Navbar from './components/Navbar'
 import Profile from './components/Profile'
-import Test from './components1/Test'
-import ParticipantTest from './components1/ParticipantsTest'
-import Datagrid2 from './components1/Datagrid2'
+import LineChart from './components/LineChart'
 import Register from './layouts/Register'
 import Login from './layouts/Login'
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -37,7 +35,7 @@ function App() {
       </Route>
 
       <Route exact path="/test">
-        <ParticipantTest/>
+        <LineChart/>
             
       </Route>
 
