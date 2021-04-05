@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
 import { Link } from 'react-router-dom';
-import LineChart from '../components/LineChart'
+import LiveChart from '../components/LiveChart'
 
 
 class Profile extends Component{
@@ -71,7 +71,7 @@ class Profile extends Component{
             var myComponent = <div>Loading..</div>
         }else{
             
-            var myComponent =  <LineChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text}/>
+            var myComponent =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text}/>
         }
   
         return(

@@ -1,131 +1,119 @@
 // Barchart for names and ages
 
 import React, {Component} from 'react';
-import {Bar, Line, Pie} from 'react-chartjs-2'
+import Chart from 'chart.js'
 import 'chartjs-plugin-streaming';
-import axios from 'axios'
+import io from 'socket.io-client'
+
+const socket = io('http://localhost:4000') // connect to listener
 
 class LiveChart extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
      
-
-        const data = {
-            datasets: [
-              {
-                label: "Dataset 1",
-                borderColor: "rgb(255, 99, 132)",
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
-                lineTension: 0,
-                borderDash: [8, 4],
-                data: []
-              }
-            ]
-          };
-
-          const options = {
-            scales: {
-              xAxes: [
-                {
-                  type: "realtime",
-                  realtime: {
-                    onRefresh: function() {
-                      data.datasets[0].data.push({
-                        x: Date.now(),
-                        y: Math.random() * 100
-                      });
-                    },
-                    delay: 2000
-                  }
-                }
-              ]
-            }
-          };
-
-
           this.state = {
-            mydata:data,
-            myoptions:options,
-            chartData:null
-            
-                
+            data:this.props.data,
+            label:this.props.label,
+            text:this.props.text
+
         }
-
-
-
-        
+ 
     }
 
-    componentWillMount(){
+    componentDidMount(){
+      const mydata = {
+        labels:this.state.label,
+        datasets: [
+          {
+            fill:false,
+            label: "run",
+            borderColor: "rgb(255, 99, 132)",
+            backgroundColor: "rgba(255, 99, 132, 0.5)",
+            borderWidth:1,
+            data: this.state.data
+          }
+        ]
+      };
 
-        this.getChartData();
-        
-        
-    }
+      var ctx = document.getElementById("myChart"); 
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: mydata,
+          options: { 
+              responsive: true, 
+              maintainAspectRatio: true,
+              title:{
+                display:true,
+                text:this.state.text,
+                fontSize:30
 
+            },
+            legend:{
+              display: true,
+              position:'right',
+              labels:{
+                  fontColor: "#000080"
+              }
+              
+          
+          
+          },
+          scales:{
+            yAxes:[{
 
-    getChartData(){
-        let names = [];
-        let ages = [];
-        axios
-        .get('http://localhost:4000/app/data')
-        .then(res => {
-         
-            //console.log(res);
-         for (const dataObj of res.data){
-            names.push(dataObj.name)
-            ages.push((parseInt(dataObj.age))
-            
-            )}
-            var mychartData = {  
-            
-                labels: names,
-                
-                datasets:[
-                {
-                    label:"Ages of participant",
-                    
-                    data: ages,
-                    
-                    backgroundColor:[
-                        'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    '#2E8B57',
-                    '#0000FF',
-                    '#4B0082',
-                    '#FF1493'
-
-
-                       
-                    ],
-                    borderWidth:1
+                ticks:{
+                    beginAtZero:true
                 }
+            }]
+        }
             
-                ]
-            }
+          }
+      });
 
-            this.setState({chartData:mychartData})
-       }).catch(err => {
-    
-       // console.log(err);
-       })
-       //console.log(names,ages)
+      
+
+        // grab data that is being emit from the server.js and add to chart
+        socket.on('data1',(res) =>{
+          
+          //console.log(res)
+          var num = Array.from({length:1}, () => Math.floor(Math.random()*590)+10)
+          this.addData(myChart,num,res)
+          //this.updateChartData(myChart,res,0);
+        })
+
     }
+
+
+    // extend datapoints on chart
+    addData(chart,label,data){
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data)
+      })
+      chart.update();
+    }
+   
+
+    
+    updateChartData(chart, data, dataSetIndex){
+      chart.data.datasets[dataSetIndex].data = data;
+      chart.update()
+    }
+
+
+  
 
    
 
 
 render(){
+
+
     return (
 
         <div className="chart">
 
-            <Line data={this.state.mydata} options={this.state.myoptions} />
-       
+          <canvas id="myChart"></canvas>
 
         </div>
 
