@@ -28,7 +28,7 @@ class Agechart extends Component{
         .get('http://localhost:4000/app/data')
         .then(res => {
          
-            //console.log(res);
+            console.log(res);
          for (const dataObj of res.data){
             names.push(dataObj.name)
             ages.push((parseInt(dataObj.age))

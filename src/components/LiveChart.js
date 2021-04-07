@@ -7,6 +7,7 @@ import io from 'socket.io-client'
 
 const socket = io('http://localhost:4000') // connect to listener
 
+
 class LiveChart extends Component{
     constructor(props){
         super(props);
@@ -15,21 +16,20 @@ class LiveChart extends Component{
             data:this.props.data,
             label:this.props.label,
             text:this.props.text,
-            name:this.props.name
+            name:this.props.name,
+            id:this.props.id
 
         }
-
         
- 
+        
     }
 
     componentDidMount(){
 
-      // need to emit the name to the socket.io connection
+     
+      const mydata2 = { id:this.state.id}
 
-      //const mydata2 = { name:this.state.name}
-
-      //socket.emit('getData', mydata2);
+      socket.emit('getData', mydata2);
 
 
       const mydata = {
@@ -86,34 +86,66 @@ class LiveChart extends Component{
         // grab data that is being emit from the server.js and add to chart
         socket.on('data1',(res) =>{
           
-          console.log(res)
+          //console.log(res)
           var num = Array.from({length:1}, () => Math.floor(Math.random()*590)+10)
 
-         //loop over resp and call the add data function to add to chart
+         // server will send a response
+         // need to check if the id from the response matches the current user id on profile page
+         // if it does then we will add this data to chart    
+         
+         
+         if (this.state.id === res.id){
           this.addData(myChart,num,res)
-          //this.updateChartData(myChart,res,0);
-        })
+         }
+         /* un comment to see demo of chart grow with random data
+         else{
 
+          this.addDataRandom(myChart,num,res)
+         }
+          */
+          //this.updateChartData(myChart,res,0);
+        
+        })
+        
     }
 
 
-    // extend datapoints on chart
+    // extend datapoints on chart, this updates after data from mongodb is changed
     addData(chart,label,data){
 
-      var lenOfoldArray = this.state.label.length
+      // we may need to perform more check in this function to determine the exact run, and level to update the chart on 
+      // as of now the chart will just update for the run 1 , level 1 charts 
 
-      var j = 'musical_task_data.level_history_data.level_1.run_1.' + (lenOfoldArray)
+      var lenOfArray = this.state.label.length
+
+      var resProp = 'musical_task_data.level_history_data.level_1.run_1.' + (lenOfArray)
+
 
       chart.data.labels.push(label);
 
       chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data[j])
+        dataset.data.push(data.data[resProp])
       })
       
       
       chart.update();
     }
-   
+
+    
+    /* un comment to see demo of random data sent to chart
+
+    addDataRandom(chart,label,data){
+
+      chart.data.labels.push(label);
+
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data)
+      })
+      
+      
+      chart.update();
+    }
+   */
 
     
     updateChartData(chart, data, dataSetIndex){

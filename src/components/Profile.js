@@ -15,7 +15,8 @@ class Profile extends Component{
            highest_level_played:null,
            text:null,
            numPoints:null,
-           dataForChart:null
+           dataForChart:null,
+           id:null
             
         }
 
@@ -52,7 +53,8 @@ class Profile extends Component{
                 highest_level_played:res.data.data.musical_task_data.highest_level_played,
                 numPoints:datapoints,
                 dataForChart:runs,
-                text: name + " level 1 run 1"
+                text: name + " level 1 run 1",
+                id:res.data.data._id
 
             
             })
@@ -71,7 +73,7 @@ class Profile extends Component{
             var myComponent = <div>Loading..</div>
         }else{
             
-            var myComponent =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name}/>
+            var myComponent =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name} id = {this.state.id}/>
         }
   
         return(
