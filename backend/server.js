@@ -19,6 +19,8 @@ app.use('/app/', routesUrls)
 
 const server = app.listen(4000, () => console.log("Server is up and running"))
 
+
+
 // setup listener for socket.io , socket will listen for changes on localhost/4000
 const io = require('socket.io')(server, {
     cors: {
@@ -26,11 +28,78 @@ const io = require('socket.io')(server, {
     }
   });
 
-// when socket is connected will run function below
-io.sockets.on('connection',(socket) =>{
-    console.log('socket io connected');
-    sendData(socket);
-})
+
+
+
+
+  const url = 'mongodb://localhost:27017/?replicaSet=rs1';
+
+        MongoClient.connect(url, function(err, client) {
+
+
+            if(err){
+                throw err;
+            }
+
+
+            console.log("connected to new Mongo")
+            const db = client.db('vanderbilt_dashboard');
+
+       
+
+
+    // when socket is connected will run function below
+    io.sockets.on('connection',(socket) =>{
+        console.log('socket io connected');
+
+
+
+
+        
+        
+            // we need to grab the name to lookup from the live chart
+           
+        /*
+            var filter = [{
+                $match : {
+                
+                $and: [
+                    {name : name_lookup },
+                    { "updateDescription.updatedFields.musical_task_data": { $exists: true } },
+                    { operationType: "update" }]
+        
+                }
+            }]
+    */
+        
+        
+            db.collection('participants').watch().on('change', (change) => {
+                console.log("something changed");
+                
+                switch (change.operationType) {
+                    case "update":
+                        console.log("something updated");
+                        
+                        
+                        var data_to_send = change.updateDescription.updatedFields
+                        socket.emit('data1', data_to_send);
+
+                }
+                
+            });
+        
+        
+        //sendData(socket);
+    })
+    
+
+
+
+    
+
+    
+    });
+
 
 // function sends random number to lineChart
 function sendData(socket){
@@ -50,30 +119,4 @@ function sendData(socket){
 
 
 
-const url = 'mongodb://localhost:27017/?replicaSet=rs1';
-
-MongoClient.connect(url, function(err, client) {
-    console.log("connected to new Mongo")
-
-    const db = client.db('vanderbilt_dashboard');
-  
-    var filter = [{
-        $match : {
-        
-        $and: [
-
-            {name : "Mark Trover" },
-            { "updateDescription.updatedFields.musical_task_data.level_history_data.level_1.run_1": { $exists: true } },
-            { operationType: "update" }]
-
-        }
-    }]
-    var options = { fullDocument: 'updateLookup' };
-    db.collection('participants').watch(filter,options).on('change', data => {
-        console.log(new Date(), data);
-    });
-   
-
-
-});
 

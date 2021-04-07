@@ -21,7 +21,7 @@ function ParticipantTest() {
         .get("http://localhost:4000/app/data")
         .then((response) => {
           // check if the data is populated
-          console.log(response.data[0].musical_task_data.highest_scores_per_level);
+         // console.log(response.data[0].musical_task_data.highest_scores_per_level);
 
           // performing a null check
           // if (response.data && response.data.length > 0) {

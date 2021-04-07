@@ -19,7 +19,7 @@ class LiveChart extends Component{
 
         }
 
-        //socket.emit('getData', this.state.name);
+        
  
     }
 
@@ -27,7 +27,9 @@ class LiveChart extends Component{
 
       // need to emit the name to the socket.io connection
 
-      
+      //const mydata2 = { name:this.state.name}
+
+      //socket.emit('getData', mydata2);
 
 
       const mydata = {
@@ -84,8 +86,10 @@ class LiveChart extends Component{
         // grab data that is being emit from the server.js and add to chart
         socket.on('data1',(res) =>{
           
-          //console.log(res)
+          console.log(res)
           var num = Array.from({length:1}, () => Math.floor(Math.random()*590)+10)
+
+         //loop over resp and call the add data function to add to chart
           this.addData(myChart,num,res)
           //this.updateChartData(myChart,res,0);
         })
@@ -95,10 +99,18 @@ class LiveChart extends Component{
 
     // extend datapoints on chart
     addData(chart,label,data){
+
+      var lenOfoldArray = this.state.label.length
+
+      var j = 'musical_task_data.level_history_data.level_1.run_1.' + (lenOfoldArray)
+
       chart.data.labels.push(label);
+
       chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data)
+        dataset.data.push(data[j])
       })
+      
+      
       chart.update();
     }
    
