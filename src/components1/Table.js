@@ -35,7 +35,6 @@ export default function Table({ columns, data }) {
       </thead>
       <tbody {...getTableBodyProps()}>
         {rows.map((row, i) => {
-          {console.log(row)}
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
