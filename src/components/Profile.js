@@ -71,7 +71,7 @@ class Profile extends Component{
             var myComponent = <div>Loading..</div>
         }else{
             
-            var myComponent =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text}/>
+            var myComponent =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name}/>
         }
   
         return(

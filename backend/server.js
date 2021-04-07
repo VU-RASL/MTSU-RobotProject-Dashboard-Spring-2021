@@ -1,21 +1,11 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const app = express()
 const routesUrls = require('./routes/routes')
 const socket = require('socket.io') // import socket.io
+const MongoClient = require('mongodb').MongoClient;
 
 const cors = require('cors')
-const { isConstructorDeclaration } = require('typescript')
 
-
-
-mongoose.connect("mongodb://localhost:27017/vanderbilt_dashboard",{
-    // removes warning msgs in console 
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex:true
-
-} , () => console.log("Database connected"))
 
 app.use(express.json()) //activate body parser
 
@@ -45,7 +35,7 @@ io.sockets.on('connection',(socket) =>{
 // function sends random number to lineChart
 function sendData(socket){
 
-   
+
     socket.emit('data1', (Math.floor(Math.random()*10) + 1) /10);
     
     
@@ -53,4 +43,37 @@ function sendData(socket){
         sendData(socket);
     },5000) // send data every 5 seconds
 }
+
+
+
+
+
+
+
+const url = 'mongodb://localhost:27017/?replicaSet=rs1';
+
+MongoClient.connect(url, function(err, client) {
+    console.log("connected to new Mongo")
+
+    const db = client.db('vanderbilt_dashboard');
+  
+    var filter = [{
+        $match : {
+        
+        $and: [
+
+            {name : "Mark Trover" },
+            { "updateDescription.updatedFields.musical_task_data.level_history_data.level_1.run_1": { $exists: true } },
+            { operationType: "update" }]
+
+        }
+    }]
+    var options = { fullDocument: 'updateLookup' };
+    db.collection('participants').watch(filter,options).on('change', data => {
+        console.log(new Date(), data);
+    });
+   
+
+
+});
 

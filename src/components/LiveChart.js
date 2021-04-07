@@ -14,13 +14,22 @@ class LiveChart extends Component{
           this.state = {
             data:this.props.data,
             label:this.props.label,
-            text:this.props.text
+            text:this.props.text,
+            name:this.props.name
 
         }
+
+        //socket.emit('getData', this.state.name);
  
     }
 
     componentDidMount(){
+
+      // need to emit the name to the socket.io connection
+
+      
+
+
       const mydata = {
         labels:this.state.label,
         datasets: [
