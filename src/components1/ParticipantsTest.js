@@ -13,7 +13,7 @@ function ParticipantTest() {
 
 
   const [mydata, setData] = useState();
-  const[mycols,setCols] = useState();
+  const [mycols, setCols] = useState();
 
   useEffect(() => {
     async function getData() {
@@ -21,69 +21,69 @@ function ParticipantTest() {
         .get("http://localhost:4000/app/data")
         .then((response) => {
           // check if the data is populated
-         // console.log(response.data[0].musical_task_data.highest_scores_per_level);
+          // console.log(response.data[0].musical_task_data.highest_scores_per_level);
 
           // performing a null check
           // if (response.data && response.data.length > 0) {
-            var participants = response.data;
-            var segment = response.data[0];
-            var taskList = [];
-            for (var key in segment) {
-                // collecting all task labels
-                if (key !== "_id" && key!=="name" && key!=="age") {
-                    taskList.push(key);
-                }
+          var participants = response.data;
+          var segment = response.data[0];
+          var taskList = [];
+          for (var key in segment) {
+            // collecting all task labels
+            if (key !== "_id" && key !== "name" && key !== "age") {
+              taskList.push(key);
             }
+          }
 
-            participants.map((participant) => {
-                // for every participant, we add extra labels for highest level played 
-                // and highest score in highest level for each task
-                for (var task in taskList) {
-                    var taskName = taskList[task];
-                    var hLevelLabel = taskName + "_hLevel";
-                    var hScoreLabel = taskName + "_hScoreOfLevel";
-                    var hLevel = participant[taskName].highest_level_played;
-                    var levelLabel = 'level_' + hLevel;
-                    var hScoreOfLevel = participant[taskName].highest_scores_per_level[levelLabel];
-                    participant[hLevelLabel] = hLevel;
-                    participant[hScoreLabel] = hScoreOfLevel;
-                }
-            });
+          participants.map((participant) => {
+            // for every participant, we add extra labels for highest level played 
+            // and highest score in highest level for each task
             for (var task in taskList) {
-                // for every task, we sort the participants based on highest level played 
-                // and highest score in the highest level and assign the ranks after sorting the data
-                var taskName = taskList[task];
-                var hLevelLabel = taskName + "_hLevel";
-                var hScoreLabel = taskName + "_hScoreOfLevel";
-                var taskRankLabel = taskName + "_rank";
-                participants.sort(function(a, b) {
-                    return b[hLevelLabel] - a[hLevelLabel]  ||  b[hScoreLabel] - a[hScoreLabel];
-                });
-                let rank = 0;
-                participants.map((participant) => {
-                    participant[taskRankLabel] = ++rank;
-                });
+              var taskName = taskList[task];
+              var hLevelLabel = taskName + "_hLevel";
+              var hScoreLabel = taskName + "_hScoreOfLevel";
+              var hLevel = participant[taskName].highest_level_played;
+              var levelLabel = 'level_' + hLevel;
+              var hScoreOfLevel = participant[taskName].highest_scores_per_level[levelLabel];
+              participant[hLevelLabel] = hLevel;
+              participant[hScoreLabel] = hScoreOfLevel;
             }
+          });
+          for (var task in taskList) {
+            // for every task, we sort the participants based on highest level played 
+            // and highest score in the highest level and assign the ranks after sorting the data
+            var taskName = taskList[task];
+            var hLevelLabel = taskName + "_hLevel";
+            var hScoreLabel = taskName + "_hScoreOfLevel";
+            var taskRankLabel = taskName + "_rank";
+            participants.sort(function (a, b) {
+              return b[hLevelLabel] - a[hLevelLabel] || b[hScoreLabel] - a[hScoreLabel];
+            });
+            let rank = 0;
+            participants.map((participant) => {
+              participant[taskRankLabel] = ++rank;
+            });
+          }
           // }
-        // As column 'Name' is always present, we do need it to be constructed dynamically
+          // As column 'Name' is always present, we do need it to be constructed dynamically
           var myCols = [
-              {
-                  Header: 'Name',
-                  accessor: 'name'
-              }
+            {
+              Header: 'Name',
+              accessor: 'name'
+            }
           ]
           for (var task in taskList) {
             var taskName = taskList[task];
             var taskRankLabel = taskName + "_rank";
             // for every task, we get add a column to the table to display the ranks
-            myCols.push( {
-                Header: taskRankLabel,
-                accessor: taskRankLabel
+            myCols.push({
+              Header: taskRankLabel,
+              accessor: taskRankLabel
             })
           }
-          
+
           // trim down headers removing any undefined data
-          myCols = myCols.filter(function(element){
+          myCols = myCols.filter(function (element) {
             return element !== undefined;
           })
 
@@ -110,8 +110,8 @@ function ParticipantTest() {
         <p>Loading Please wait...</p>
       ) : (
         <div>
-         
-         <Table data={mydata} columns={mycols}/>
+
+          <Table data={mydata} columns={mycols} />
         </div>
       )}
     </div>
