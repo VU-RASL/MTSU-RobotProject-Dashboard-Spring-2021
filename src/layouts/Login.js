@@ -7,7 +7,8 @@ class Login extends Component {
         super()
         this.state = {
             username:'',
-            password:''
+            password:'',
+            loginStatus:false
         }
         this.changeUsername = this.changeUsername.bind(this)
         this.changePassword = this.changePassword.bind(this)
@@ -28,6 +29,24 @@ class Login extends Component {
         })
     }
 
+
+
+
+    userAuth(){
+        axios.post('http://localhost:4000/app/user/isUserAuth',{
+            headers:{"x-access-token":localStorage.getItem("token")}
+
+
+            }).then((response)=>{
+                console.log(response)
+        })
+    }
+
+
+
+
+
+
     onSubmit(event){
         event.preventDefault() // prevents page from refresh.. prevents the default behavior of form
         const loginUser = { // this will gather the user/pass to send to backend
@@ -38,19 +57,27 @@ class Login extends Component {
         // below the axios will connect with our backend 
         axios.post('http://localhost:4000/app/user/login', loginUser)
         .then(response => {
-            console.log(response.data)
+            
+            // check if user exist
+            if(response.data.auth = false){
+                this.setState({loginStatus:false})
 
-        
+            }else{
+                console.log(response.data)
+                this.setState({loginStatus:true})
+                localStorage.setItem("token",response.data.token)
+            }
+
         })
 
         // below you can redirect the user to another page after success
          //window.location = '/'
-       
+       /*
           this.setState({
             username:'',
             password: ''
         })
-        
+        */
     }
 
     render() {
@@ -84,10 +111,11 @@ class Login extends Component {
                 </div>
               
             
-                
+            { this.state.loginStatus && <button onClick={this.userAuth()}>Chech if User is auth</button> }
 
             </div>
             
+
         );
         
         

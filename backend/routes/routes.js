@@ -7,6 +7,10 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/vanderbilt_dashboard";
 
 
+
+// need to add mongoose connect back to this page
+
+
 // Routes
 
 // signup page
@@ -39,7 +43,7 @@ router.post('/login', async (req, res) => {
 	const user = await User.findOne({ username }).lean()
 
 	if (!user) {
-		return res.json({ status: 'error', error: 'Invalid username/password error' })
+		return res.json({ auth:false, message: 'User does not Exist' })
 	}
 
 	if (await bcrypt.compare(password, user.password)) {
@@ -51,13 +55,53 @@ router.post('/login', async (req, res) => {
 			},
 			JWT_SECRET
 		)
+			// send response thst auth is true and also send the token
+		return res.json({ auth: true, user: user.username , token: token })
+	}else{
 
-		return res.json({ status: 'ok', user: user.username , token: token })
+		res.json({ auth:false, message: 'Invalid username/password' })
+
 	}
-    // else
+    
 
-	res.json({ status: '400', error: 'Invalid username/password' })
+	
 })
+
+
+
+// verify user token from login
+const verifyJWT = (req,res,next) =>{
+ const token = req.headers("x-access-token")
+
+// if no token is detected 
+ if(!token){
+	 res.send("No token detected")
+ }else{
+
+	jwt.verify(token,JWT_SECRET,(err,decoded)=>{
+		if(err){
+			res.json({auth:false, message:"U failed to auth"})
+		}else{
+			req.userId = decoded.id;
+			next();
+		}
+	})
+ }
+
+}
+
+
+
+
+
+router.get('/isUserAuth', async (req, res) => {
+
+	res.send("You are authenticated")
+})
+
+
+
+
 
 
 
