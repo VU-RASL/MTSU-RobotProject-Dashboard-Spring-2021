@@ -3,12 +3,23 @@ const router = express.Router()
 const User = require('../models/Users.js') // import the user model from mongodb
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/vanderbilt_dashboard";
 
 
+//https://github.com/mehulmpt/node-auth-youtube/blob/master/server.js
+const JWT_SECRET = 'sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhfjk'
+
+
 
 // need to add mongoose connect back to this page
+
+mongoose.connect(url, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useCreateIndex: true
+})
 
 
 // Routes
