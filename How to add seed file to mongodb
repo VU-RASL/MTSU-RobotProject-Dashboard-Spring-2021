@@ -1,0 +1,11 @@
+How to add seed file to mongodb
+
+mongoimport --db (database name) --collection (collection name) --file (seed file location) --jsonArray
+
+
+ex.
+mongoimport --db vanderbilt_dashboard --collection participants --file/Users/lorenzomcdaniel/Desktop/data/data_dashboard.json --jsonArray
+
+
+Resources:
+https://docs.mongodb.com/guides/server/import/
