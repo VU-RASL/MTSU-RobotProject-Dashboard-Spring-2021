@@ -50,7 +50,6 @@ export default function Table({ columns, data }) {
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
-            { console.log(row) }
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>

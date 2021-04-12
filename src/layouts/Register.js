@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
+import "./css/login.css"
+import pic from '../images/vandy3.jpeg'
+import logo from '../images/vandy_logo2.png'
 
 class Register extends Component {
     constructor(){
@@ -36,7 +39,7 @@ class Register extends Component {
         }
 
         // below the axios will connect with our backend 
-        axios.post('http://localhost:4000/app/user/signup', registered)
+        axios.post('http://localhost:4000/app/signup', registered)
         .then(response => console.log(response.data))
 
         // below you can redirect the user to another page after success
@@ -51,32 +54,45 @@ class Register extends Component {
     render() {
         return ( 
         
-            <div> 
-                <h2>Register Page</h2>
-                <div className='container'>
-                    <div className ='form-div'>
+            <div style={{backgroundColor:"#d0d0ce"}}> 
+                   <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+            <div class="container">
+                <div class="card login-card">
+                    <div class="row no-gutters">
+                        <div class="col-md-5"> 
+                        <img src={pic} alt="login" class="login-card-img"/>
+                            
+                        </div>
+                    
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <div class="brand-wrapper">
+                                <img src={logo} alt="logo" class="logo"/>
+                                </div>
+                                <p class="login-card-description">Register</p>
 
-                        <form onSubmit={this.onSubmit}>
-                            <input type = 'text'
-                            placeholder = 'Username'
-                            onChange={this.changeUsername}
-                            value={this.state.username}
-                            className='form-control form-group'
-                            />
+                                { this.state.Error_msg? <p style={{color:'red'}}>{this.state.Error_msg}</p> : null }
+                               
+                                <form onSubmit={this.onSubmit}>
+                                    <div class="form-group">
+                                        <label for="email" class="sr-only">Username</label>
+                                        <input type="text" name="username" onChange={this.changeUsername} value={this.state.username} id="username" class="form-control" placeholder="Username"/>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="password" class="sr-only">Password</label>
+                                        <input type="password" name="password" onChange={this.changePassword} value={this.state.password} id="password" class="form-control" placeholder="password"/>
+                                    </div>
+                                    <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login"/>
+                                </form>
+                               
+                                
 
-                            <input type='password'
-                            placeholder='Password'
-                            onChange={this.changePassword}
-                            value={this.state.password}
-                            className='form-control form-group'
-                            />
-
-                            <input type='submit' className='btn btn-danger btn-black'
-                            value='Submit'
-                            />
-                        </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                </div>
+                </main>
             </div>
             
         );

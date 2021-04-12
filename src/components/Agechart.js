@@ -1,7 +1,7 @@
 // Barchart for names and ages
 
-import React, {Component} from 'react';
-import {Bar, Line, Pie} from 'react-chartjs-2'
+import {Component} from 'react';
+import {Bar} from 'react-chartjs-2'
 import axios from 'axios'
 
 class Agechart extends Component{
@@ -28,7 +28,7 @@ class Agechart extends Component{
         .get('http://localhost:4000/app/data')
         .then(res => {
          
-            console.log(res);
+           
          for (const dataObj of res.data){
             names.push(dataObj.name)
             ages.push((parseInt(dataObj.age))
