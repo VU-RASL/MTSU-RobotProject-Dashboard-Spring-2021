@@ -10,7 +10,9 @@ class Register extends Component {
         super()
         this.state = {
             username:'',
-            password:''
+            password:'',
+            message:null,
+            redirect:false
         }
         this.changeUsername = this.changeUsername.bind(this)
         this.changePassword = this.changePassword.bind(this)
@@ -40,7 +42,21 @@ class Register extends Component {
 
         // below the axios will connect with our backend 
         axios.post('http://localhost:4000/app/signup', registered)
-        .then(response => console.log(response.data))
+        .then(response => {
+            
+            if (response.data.message === "Register is Success"){
+                this.setState({message:response.data.message,redirect:true})    
+
+            }
+            else{
+                this.setState({message:response.data.message})    
+            }
+            
+
+
+
+
+        })
 
         // below you can redirect the user to another page after success
          //window.location = '/'
@@ -71,7 +87,7 @@ class Register extends Component {
                                 </div>
                                 <p class="login-card-description">Register</p>
 
-                                { this.state.Error_msg? <p style={{color:'red'}}>{this.state.Error_msg}</p> : null }
+                                { this.state.message? <p style={{color:'red'}}>{this.state.message}</p> : null }
                                
                                 <form onSubmit={this.onSubmit}>
                                     <div class="form-group">
@@ -93,6 +109,9 @@ class Register extends Component {
                 </div>
                 </div>
                 </main>
+
+                { this.state.redirect ? (window.location="/login") : null }
+
             </div>
             
         );

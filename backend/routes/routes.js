@@ -50,20 +50,33 @@ const verifyJWT = (req,res,next) =>{
 router.post('/signup', async (request,response) =>{
 
     const saltPassword = await bcrypt.genSalt(10) // generate salt for password
-    const securePassword = await bcrypt.hash(request.body.password, saltPassword) // hash the password
 
-    const user = new User({
+    
+	if (request.body.password!== ""){
+		const securePassword = await bcrypt.hash(request.body.password, saltPassword) // hash the password
+		const user = new User({
 
-        username:request.body.username,
-        password:securePassword
-    })
-    user.save() // save this user to db
-    .then(data =>{
-        response.json(data)
-    })
-    .catch(error =>{ 
-        response.json(error)
-    })
+			username:request.body.username,
+			password:securePassword
+		})
+		user.save() // save this user to db
+		.then(data =>{
+			response.json({ message: "Register is Success" })
+		})
+		.catch(error =>{ 
+			response.json({ message: error})
+		})
+	
+	
+	
+	}
+	else{
+		
+		return response.json({ message: "Register is Not Success" })
+	}
+	
+
+   
 
 })
 
