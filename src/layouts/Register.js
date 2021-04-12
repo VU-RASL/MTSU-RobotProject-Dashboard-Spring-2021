@@ -98,7 +98,7 @@ class Register extends Component {
                                         <label for="password" class="sr-only">Password</label>
                                         <input type="password" name="password" onChange={this.changePassword} value={this.state.password} id="password" class="form-control" placeholder="password"/>
                                     </div>
-                                    <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login"/>
+                                    <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Register"/>
                                 </form>
                                
                                 
