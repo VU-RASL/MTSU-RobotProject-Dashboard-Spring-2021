@@ -1,26 +1,48 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/Users.js') // import the user model from mongodb
+const User = require('../models/Users.js') // import the user model from mongodb to be used with mongoose
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/vanderbilt_dashboard";
 
-
-//https://github.com/mehulmpt/node-auth-youtube/blob/master/server.js
+// will need to move this to env variable in future
 const JWT_SECRET = 'sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhfjk'
 
 
 
-// need to add mongoose connect back to this page
 
+// mongoose connect needed for login/register pages
 mongoose.connect(url, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	useCreateIndex: true
 })
 
+
+// verify user token from login
+const verifyJWT = (req,res,next) =>{
+	const token = req.headers["x-access-token"];
+	
+	// if no token is detected 
+	 if(!token){
+		 res.send("No token detected")
+	 }else{
+	
+		jwt.verify(token,JWT_SECRET,(err,decoded)=>{
+			if(err){
+				res.json({auth:false, message:"U failed to auth"})
+			}else{
+
+				req.userId = decoded.id;
+				next();
+				res.send({auth:true}) 
+			}
+		})
+	 }
+	
+	}
 
 // Routes
 
@@ -67,7 +89,7 @@ router.post('/login', async (req, res) => {
 			JWT_SECRET
 		)
 			// send response thst auth is true and also send the token
-		return res.json({ auth: true, user: user.username , token: token })
+		return res.json({ auth: "true", token: token })
 	}else{
 
 		res.json({ auth:false, message: 'Invalid username/password' })
@@ -79,40 +101,11 @@ router.post('/login', async (req, res) => {
 })
 
 
-
-// verify user token from login
-const verifyJWT = (req,res,next) =>{
- const token = req.headers("x-access-token")
-
-// if no token is detected 
- if(!token){
-	 res.send("No token detected")
- }else{
-
-	jwt.verify(token,JWT_SECRET,(err,decoded)=>{
-		if(err){
-			res.json({auth:false, message:"U failed to auth"})
-		}else{
-			req.userId = decoded.id;
-			next();
-		}
-	})
- }
-
-}
-
-
-
-
-
-router.get('/isUserAuth', async (req, res) => {
+// check if user is auth, pass in verifyJWt middleware
+router.get('/isUserAuth', verifyJWT,(req, res) => {
 
 	res.send("You are authenticated")
 })
-
-
-
-
 
 
 
@@ -133,10 +126,6 @@ router.get('/data',  (req, res) => {
     	})
 	})
 })
-
-
-
-
 
 
 

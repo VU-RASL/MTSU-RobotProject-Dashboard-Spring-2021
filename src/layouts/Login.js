@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
+import "./css/login.css"
+import pic from '../images/vandy2.jpeg'
+import logo from '../images/vandy_logo2.png'
 
 class Login extends Component {
     constructor(){
@@ -8,12 +11,28 @@ class Login extends Component {
         this.state = {
             username:'',
             password:'',
-            loginStatus:false
+            loginStatus:false,
+            redirect:false,
+            Error_msg:null
+
         }
         this.changeUsername = this.changeUsername.bind(this)
         this.changePassword = this.changePassword.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
   
+    }
+
+    componentDidMount(){
+        // if the user goes to this page and already has a token , set redirect to true
+        // so we can push the user back to the dashboard page
+        if (localStorage.getItem("token")!= null){
+            this.setState({redirect:true})
+        }
+    }
+    
+    componentWillUnmount(){
+        // reset the redirect state back to false
+        this.setState({redirect:false})
     }
     
     changeUsername(event){
@@ -30,21 +49,21 @@ class Login extends Component {
     }
 
 
-
-
     userAuth(){
-        axios.post('http://localhost:4000/app/user/isUserAuth',{
-            headers:{"x-access-token":localStorage.getItem("token")}
-
+        axios.get('http://localhost:4000/app/isUserAuth',{
+            headers:{"x-access-token": localStorage.getItem("token"),
+        },
 
             }).then((response)=>{
-                console.log(response)
+                //console.log(response)
+                if (response.data = "You are authenticated"){
+                    
+                   this.setState({redirect:true})
+                
+                }
+
         })
     }
-
-
-
-
 
 
     onSubmit(event){
@@ -55,66 +74,79 @@ class Login extends Component {
         }
 
         // below the axios will connect with our backend 
-        axios.post('http://localhost:4000/app/user/login', loginUser)
+        axios.post('http://localhost:4000/app/login', loginUser)
         .then(response => {
             
             // check if user exist
-            if(response.data.auth = false){
-                this.setState({loginStatus:false})
+            if(!response.data.auth){
+                this.setState({loginStatus:false,Error_msg:response.data.message})
 
             }else{
-                console.log(response.data)
+                //console.log(response.data)
                 this.setState({loginStatus:true})
                 localStorage.setItem("token",response.data.token)
+                this.userAuth()
+            
             }
 
+            
         })
 
-        // below you can redirect the user to another page after success
-         //window.location = '/'
-       /*
-          this.setState({
-            username:'',
-            password: ''
-        })
-        */
+
     }
 
     render() {
+
         return ( 
         
-            <div> 
-                <h2>Login Page</h2>
-                <div className='container'>
-                    <div className ='form-div'>
+            <div style={{backgroundColor:"#d0d0ce"}}> 
+                 <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+            <div class="container">
+                <div class="card login-card">
+                    <div class="row no-gutters">
+                        <div class="col-md-5"> 
+                        <img src={pic} alt="login" class="login-card-img"/>
+                            
+                        </div>
+                    
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <div class="brand-wrapper">
+                                <img src={logo} alt="logo" class="logo"/>
+                                </div>
+                                <p class="login-card-description">Sign into Dashboard App</p>
 
-                        <form onSubmit={this.onSubmit}>
-                            <input type = 'text'
-                            placeholder = 'Username'
-                            onChange={this.changeUsername}
-                            value={this.state.username}
-                            className='form-control form-group'
-                            />
 
-                            <input type='password'
-                            placeholder='Password'
-                            onChange={this.changePassword}
-                            value={this.state.password}
-                            className='form-control form-group'
-                            />
+                                { this.state.Error_msg? <p style={{color:'red'}}>{this.state.Error_msg}</p> : null }
+                               
+                               
+                                <form onSubmit={this.onSubmit}>
+                                    <div class="form-group">
+                                        <label for="email" class="sr-only">Username</label>
+                                        <input type="text" name="username" onChange={this.changeUsername} value={this.state.username} id="username" class="form-control" placeholder="Username"/>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="password" class="sr-only">Password</label>
+                                        <input type="password" name="password" onChange={this.changePassword} value={this.state.password} id="password" class="form-control" placeholder="password"/>
+                                    </div>
+                                    <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login"/>
+                                </form>
+                                <p class="login-card-footer-text">Don't have an account? <a href="/register" class="text-reset">Register here</a></p>
+                                
 
-                            <input type='submit' className='btn btn-danger btn-black'
-                            value='Submit'
-                            />
-                        </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                </div>
+                </main>
               
             
-            { this.state.loginStatus && <button onClick={this.userAuth()}>Chech if User is auth</button> }
+                { this.state.redirect ? (window.location="/") : null }
+         
 
             </div>
-            
+           
 
         );
         

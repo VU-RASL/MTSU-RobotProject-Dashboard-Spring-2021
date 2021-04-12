@@ -5,29 +5,62 @@ import Agechart from '../components/Agechart'
 import HighestLvlChart from '../components/HighestLvlChart'
 import Search from '../components/Search'
 import ParticipantTest from '../components1/ParticipantsTest'
+import Navbar from '../components/Navbar'
+
 
 
 
 class Home extends Component{
+    constructor(){
+        super()
+
+        var go;
+        if (localStorage.getItem("token")!= null){
+            go = false
+        }
+        else{
+            go = true
+        }
+
+
+        this.state = {
+            redirect:go
+        }
+
+
+    }
+   
+
+    
+
+
+    
     
     render(){
       
 
         return(
 
-            <div className="Home" style={{overflow:'hidden'}}>
+            
+        <div id="navbar">
+           
+            <Navbar/>
                 
-
-<div style={{float:'right'}}>
-            <Search/>
-            </div>
+            <div class = "container" style={{overflow:'hidden'}}>    
+                <div style={{float:'right'}}>
+                    <Search/>
+                </div>
             <ParticipantTest/>
 
             <Agechart/>
         
             <HighestLvlChart/>
+            
+            { this.state.redirect ? (window.location="/login") : null }
            
             </div>
+        
+        </div>
         )
     }
 

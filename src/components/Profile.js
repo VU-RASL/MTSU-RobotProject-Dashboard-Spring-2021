@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import LiveChart from '../components/LiveChart'
+import Navbar from '../components/Navbar'
 
 
 class Profile extends Component{
@@ -10,7 +11,7 @@ class Profile extends Component{
     constructor(props){
         super(props)
         this.state = {
-            data: [], // this where i set props ,
+            data: [], 
            name:this.props.location.state.name,
            highest_level_played:null,
            text:null,
@@ -58,10 +59,7 @@ class Profile extends Component{
 
             
             })
-            
-                             
-           
-
+   
         })
     }
 
@@ -70,37 +68,33 @@ class Profile extends Component{
     render(){
         // only show component when data is ready to be passed 
         if(this.state.dataForChart== null){
-            var myComponent = <div>Loading..</div>
+            var ComponentLoaded = <div>Loading..</div>
         }else{
             
-            var myComponent =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name} id = {this.state.id}/>
+            var ComponentLoaded =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name} id = {this.state.id}/>
         }
   
         return(
-        
-
-            <div className="profile">
             
-            <div style={{float:'right'}}>
-            
-            <Link to= "/"> 
-            <button type='button' className='btn btn-primary'>Return to Home Dashboard</button>
-           </Link>
-            
-            </div>
+            <div id="navbar">
+                <Navbar/>
 
-
-            <h5 className="display-3">This is {this.state.data.name}'s profile page!</h5>
-
+                <div class="container">
             
-            <h2>{this.state.highest_level_played}</h2>
-   
-
-         
-            {myComponent}
+                    <div style={{float:'right'}}>
             
+                    <Link to= "/"> 
+                    <button type='button' className='btn btn-primary'>Return to Home Dashboard</button>
+                    </Link>
             
+                    </div>
 
+                 <h5 className="display-3">This is {this.state.data.name}'s profile page!</h5>
+
+                <h2>{this.state.highest_level_played}</h2>
+                {ComponentLoaded}
+                 
+                </div>
             </div>
              
            

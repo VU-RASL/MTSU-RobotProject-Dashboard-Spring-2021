@@ -1,6 +1,4 @@
-import Navbar from './components/Navbar'
 import Profile from './components/Profile'
-import LiveChart from './components/LiveChart'
 import Register from './layouts/Register'
 import Login from './layouts/Login'
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -16,9 +14,12 @@ function App() {
     <Router>
     <div className="App">
 
-      <Navbar/>
+    
 
-      <div class = "container">
+
+
+
+      
       
       <Switch>
       
@@ -36,7 +37,7 @@ function App() {
 
       <Route exact path="/test">
         
-            <LiveChart/>
+           
       </Route>
 
       <Route exact path="/participant_profile" component={Profile}>
@@ -44,7 +45,7 @@ function App() {
       </Route>
 
       </Switch>
-      </div>
+      
     </div>
     </Router>
   );

@@ -1,15 +1,39 @@
 // navbar code goes here
 import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
+import Logout from '../layouts/Logout'
+import logo from '../images/vandy_logo.png'
 
 
 class Navbar extends Component{
+  constructor(){
+    super()
+    // logic created to hide the logout button , if the storage/token is empty or not 
+    var hideComponent;
+    if (localStorage.getItem("token")!= null){
+        hideComponent = false
+    }
+    else{
+        hideComponent = true
+    }
+
+
+    this.state = {
+        HideComp:hideComponent
+    }
+
+
+}
 
     render(){
         return(
+
+          <div class="header">
             
             <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="/">
+  <img src={logo} width="30" height="30" alt=""/>
+
   </a>
   
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,13 +44,14 @@ class Navbar extends Component{
       <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
       </div>
       <div class="navbar-nav ml-auto">
-      <a class="nav-item nav-link" href="/login" >Login</a>
-      <a class="nav-item nav-link" href="/register">Register</a>
+      
+      { this.state.HideComp ? null: <a class="nav-item nav-link"><Logout/></a> } 
     </div>
   </div>
 
   
 </nav>
+</div>
         )
 
 
