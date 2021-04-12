@@ -4,6 +4,20 @@ import axios from 'axios'
 import { Link } from 'react-router-dom';
 import LiveChart from '../components/LiveChart'
 import Navbar from '../components/Navbar'
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+
+// set the css for the load animation 
+const override = css`
+position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+  border-color: red;
+`;
 
 
 class Profile extends Component{
@@ -17,7 +31,8 @@ class Profile extends Component{
            text:null,
            numPoints:null,
            dataForChart:null,
-           id:null
+           id:null,
+           Loading:true
             
         }
 
@@ -56,45 +71,53 @@ class Profile extends Component{
                 dataForChart:runs,
                 text: name + " level 1 run 1",
                 id:res.data.data._id
-
-            
             })
    
         })
     }
 
-
+   
 
     render(){
         // only show component when data is ready to be passed 
+       
         if(this.state.dataForChart== null){
-            var ComponentLoaded = <div>Loading..</div>
+             // a loading icon animation will show if the data is null 
+            var ComponentLoaded = 
+            <div class ="container">
+                <ClipLoader css={override} size={150} color={"#123abc"} loading={this.state.loading} />
+                
+            </div>
         }else{
-            
-            var ComponentLoaded =  <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name} id = {this.state.id}/>
+            // this will show entire component once the loading is complete 
+            // place components you want to show on page here
+            var ComponentLoaded =   
+            <div id="navbar">
+           
+                <Navbar/>
+                <div class="container">
+                    
+                    <div style={{float:'right'}}>
+                    
+                     <Link to= "/"> <button type='button' className='btn btn-primary'>Return to Home Dashboard</button></Link>
+                
+                 </div>
+
+                    <h5 className="display-3">This is {this.state.data.name}'s profile page!</h5>
+                    <h2>{this.state.highest_level_played}</h2>
+                    <LiveChart data = {this.state.dataForChart} label={this.state.numPoints} text = {this.state.text} name ={this.state.name} id = {this.state.id}/>
+               
+                </div> 
+           
+            </div>
         }
   
         return(
             
-            <div id="navbar">
-                <Navbar/>
-
-                <div class="container">
-            
-                    <div style={{float:'right'}}>
-            
-                    <Link to= "/"> 
-                    <button type='button' className='btn btn-primary'>Return to Home Dashboard</button>
-                    </Link>
-            
-                    </div>
-
-                 <h5 className="display-3">This is {this.state.data.name}'s profile page!</h5>
-
-                <h2>{this.state.highest_level_played}</h2>
+            <div>
+                {/* Place components in this page within the "else" conditional statement above */}
                 {ComponentLoaded}
                  
-                </div>
             </div>
              
            

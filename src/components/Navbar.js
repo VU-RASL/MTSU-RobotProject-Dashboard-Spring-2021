@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import Logout from '../layouts/Logout'
 import logo from '../images/vandy_logo.png'
+import Search from '../components/Search'
+
 
 
 class Navbar extends Component{
@@ -30,7 +32,7 @@ class Navbar extends Component{
 
           <div class="header">
             
-            <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-light bg-dark py-0">
   <a class="navbar-brand" href="/">
   <img src={logo} width="30" height="30" alt=""/>
 
@@ -44,7 +46,7 @@ class Navbar extends Component{
       <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
       </div>
       <div class="navbar-nav ml-auto">
-      
+      <a class="nav-item nav-link "><Search/></a> 
       { this.state.HideComp ? null: <a class="nav-item nav-link"><Logout/></a> } 
     </div>
   </div>

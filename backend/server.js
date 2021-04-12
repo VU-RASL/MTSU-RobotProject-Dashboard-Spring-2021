@@ -91,7 +91,7 @@ const io = require('socket.io')(server, {
             });
         
         // below is a function that will demo random data sent to client
-        //sendData(socket);
+        sendData(socket);
     })
     
     

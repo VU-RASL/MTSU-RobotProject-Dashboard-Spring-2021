@@ -97,12 +97,12 @@ class LiveChart extends Component{
          if (this.state.id === res.id){
           this.addData(myChart,num,res)
          }
-         /* un comment to see demo of chart grow with random data
+         // un comment to see demo of chart grow with random data
          else{
 
           this.addDataRandom(myChart,num,res)
          }
-          */
+          
           //this.updateChartData(myChart,res,0);
         
         })
@@ -132,7 +132,7 @@ class LiveChart extends Component{
     }
 
     
-    /* un comment to see demo of random data sent to chart
+    //un comment to see demo of random data sent to chart
 
     addDataRandom(chart,label,data){
 
@@ -145,7 +145,7 @@ class LiveChart extends Component{
       
       chart.update();
     }
-   */
+   
 
     
     updateChartData(chart, data, dataSetIndex){

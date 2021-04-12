@@ -3,12 +3,22 @@ import Autosuggest from 'react-autosuggest';
 import axios from 'axios'
 import '../components/search.css';
 import { Link } from 'react-router-dom';
+import icon from '../images/search_icon.png'
 
 
   function shouldRenderSuggestions() {
     return true;
   }
 
+
+
+  // used to refresh page , so that user can search multiple names while on profile page
+  function refreshPage() {
+    setTimeout(()=>{
+        window.location.reload(false);
+    },  50);
+    
+}
 
   
   // When suggestion is clicked, Autosuggest needs to populate the input
@@ -22,17 +32,27 @@ import { Link } from 'react-router-dom';
     // page
     <div>
 
-<Link to={{pathname:'/participant_profile',state:{name:suggestion.name}}} >{suggestion.name}</Link>
+<Link to={{pathname:'/participant_profile',state:{name:suggestion.name}}} style={{ display: "block"}} onClick={refreshPage}> {suggestion.name} </Link>
      
     </div>
   );
 
 
 
+  // place icon in search bar here
+  const renderInputComponent = inputProps => (
+    <div className="inputContainer">
+      <img className="icon" src={icon} />
+      <input {...inputProps} />
+    </div>
+  );
+  
+
+
 class Search extends React.Component {
     constructor() {
       super();
-  
+      
       // Autosuggest is a controlled component.
       // This means that you need to provide an input value
       // and an onChange handler that updates this value (see below).
@@ -46,12 +66,15 @@ class Search extends React.Component {
     }
 
 
-    componentWillMount(){
+    componentDidMount(){
 
       this.getData();
       
   }
 
+ 
+
+  
 
 
     getData(){
@@ -132,6 +155,7 @@ class Search extends React.Component {
           renderSuggestion={renderSuggestion}
           shouldRenderSuggestions={shouldRenderSuggestions}
           inputProps={inputProps}
+          renderInputComponent={renderInputComponent}
           
           
         />
