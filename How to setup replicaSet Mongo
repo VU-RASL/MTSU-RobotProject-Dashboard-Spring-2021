@@ -1,13 +1,23 @@
-How to set up replica set for mongodb community on Mac
+How to set up replica set for mongodb community
 
 1. navigate to your mongo.conf file
-After installing MongoDB with Homebrew:
-(these folder are hidden by default on mac, you will need to Press Command + Shift + . (period) to view hidden folders.)
 
-- The databases are stored in the /usr/local/var/mongodb/ directory
-- The mongod.conf file is here: /usr/local/etc/mongod.conf
-- The mongo logs can be found at /usr/local/var/log/mongodb/
-- The mongo binaries are here: /usr/local/Cellar/mongodb/[version]/bin
+Linux
+apt, yum, or zypper Package Manager
+/etc/mongod.conf
+
+
+macOS
+brew Package Manager
+/usr/local/etc/mongod.conf (on Intel processors), or
+
+/opt/homebrew/etc/mongod.conf (on Apple M1 processors)
+
+
+
+Windows
+MSI Installer
+<install directory>\bin\mongod.cfg
 
 
 
@@ -64,7 +74,9 @@ ex.
 1. you will need to restart your mongodb service with homebrew
 **run these commands outside of the mongo shell, in your normal console/terminal
 
-ex. > brew services stop mongodb-community
+ex. On Mac system using homebrew commands 
+
+    > brew services stop mongodb-community
     > brew services start mongodb-community
 
 you can check if mongodb is running by runinng
@@ -96,8 +108,11 @@ postgresql        stopped
 
 
 
+Resources : 
 
-
+https://docs.mongodb.com/manual/reference/configuration-options/
+https://docs.mongodb.com/manual/tutorial/deploy-replica-set/
+https://docs.mongodb.com/manual/replication/
 
 
 
