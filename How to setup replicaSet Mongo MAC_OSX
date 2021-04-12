@@ -1,0 +1,104 @@
+How to set up replica set for mongodb community on Mac
+
+1. navigate to your mongo.conf file
+After installing MongoDB with Homebrew:
+(these folder are hidden by default on mac, you will need to Press Command + Shift + . (period) to view hidden folders.)
+
+- The databases are stored in the /usr/local/var/mongodb/ directory
+- The mongod.conf file is here: /usr/local/etc/mongod.conf
+- The mongo logs can be found at /usr/local/var/log/mongodb/
+- The mongo binaries are here: /usr/local/Cellar/mongodb/[version]/bin
+
+
+
+2 . edit the mongo.conf file and add replication property to file
+    make sure the name for your replSetName = "rs1"
+
+Ex.
+systemLog:
+  destination: file
+  path: /usr/local/var/log/mongodb/mongo.log
+  logAppend: true
+storage:
+  dbPath: /usr/local/var/mongodb
+net:
+  bindIp: 127.0.0.1
+replication:
+  replSetName: "rs1"
+
+
+3. launch mongo shell and enter rs.initiate()
+    Ex.
+    > rs.initiate()
+{
+    "info2" : "no configuration specified. Using a default configuration for the set",
+    "me" : "127.0.0.1:27017",
+    "ok" : 1,
+    "$clusterTime" : {
+        "clusterTime" : Timestamp(1577545731, 1),
+        "signature" : {
+            "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+            "keyId" : NumberLong(0)
+        }
+    },
+    "operationTime" : Timestamp(1577545731, 1)
+}
+
+
+______________________________________________________________________________________
+
+IF YOU ENCOUNTER ERRORS LOOK BELOW
+______________________________________________________________________________________
+!! if you encouter an error like this..
+ex.
+> rs.initiate()
+
+{
+    "ok" : 0,
+    "errmsg" : "This node was not started with the replSet option",
+    "code" : 76,
+    "codeName" : "NoReplicationEnabled"
+}
+
+
+1. you will need to restart your mongodb service with homebrew
+**run these commands outside of the mongo shell, in your normal console/terminal
+
+ex. > brew services stop mongodb-community
+    > brew services start mongodb-community
+
+you can check if mongodb is running by runinng
+
+> brew services list
+Name              Status  User            Plist
+mongodb-community started lorenzomcdaniel /Users/lorenzomcdaniel/Library/LaunchAgents/homebrew.mxcl.mongodb-community.plist
+postgresql        stopped
+
+
+2. Start mongo shell and run the rs.initate() command again
+
+    > rs.initiate()
+{
+    "info2" : "no configuration specified. Using a default configuration for the set",
+    "me" : "127.0.0.1:27017",
+    "ok" : 1,
+    "$clusterTime" : {
+        "clusterTime" : Timestamp(1577545731, 1),
+        "signature" : {
+            "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+            "keyId" : NumberLong(0)
+        }
+    },
+    "operationTime" : Timestamp(1577545731, 1)
+}
+
+
+
+
+
+
+
+
+
+
+
