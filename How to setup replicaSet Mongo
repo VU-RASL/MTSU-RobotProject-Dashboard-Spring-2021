@@ -1,7 +1,23 @@
 
-Video for how to setup replica set for windows os 
+Video for how to setup replica set for windows os
+
+IMPORTANT IF YOU ARE FOLLOWING VIDEO
+NAME YOUR REPLICA SET "rs1" !!!
 - https://youtu.be/bJo7nr9xdrQ
 
+Ex.
+systemLog:
+  destination: file
+  path: /usr/local/var/log/mongodb/mongo.log
+  logAppend: true
+storage:
+  dbPath: /usr/local/var/mongodb
+net:
+  bindIp: 127.0.0.1
+replication:
+  replSetName: "rs1"
+_______________________________________________________________________
+________________________________________________________________________
 
 How to set up replica set for mongodb community
 
@@ -11,19 +27,11 @@ Linux
 apt, yum, or zypper Package Manager
 /etc/mongod.conf
 
-
 macOS
 brew Package Manager
 /usr/local/etc/mongod.conf (on Intel processors), or
 
 /opt/homebrew/etc/mongod.conf (on Apple M1 processors)
-
-
-
-Windows
-MSI Installer
-<install directory>\bin\mongod.cfg
-
 
 
 
