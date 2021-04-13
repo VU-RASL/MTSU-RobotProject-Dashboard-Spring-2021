@@ -1,8 +1,11 @@
 // Table.js
-import { useTable, useSortBy, usePagination } from "react-table";
+import { useTable, useSortBy, usePagination, useGlobalFilter } from "react-table";
 import './table.css';
+import { GlobalFilter } from './GlobalFilter';
 
-export default function Table({ columns, data }) {
+export default function Table(props) {
+  const columns = props.props.columns;
+  const data = props.props.data;
   // Use the useTable Hook to send the columns and data to build the table
   const {
     getTableProps, // table props from react-table
@@ -18,16 +21,18 @@ export default function Table({ columns, data }) {
     state,
     gotoPage, // functions help to directly go to a specific page
     pageCount, // returns number of pages based on data
-    prepareRow // Prepare the row (this function needs to be called for each row before getting the row props)
+    prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
+    setGlobalFilter
   } = useTable({
     columns,
     data,
-    initialState: { pageSize: 4 }
+    initialState: { pageSize: 10 }
   },
+    useGlobalFilter,
     useSortBy,
     usePagination);
 
-  const { pageIndex } = state;
+  const { pageIndex, globalFilter } = state;
 
 
   /* 
@@ -36,6 +41,7 @@ export default function Table({ columns, data }) {
   */
   return (
     <div>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (

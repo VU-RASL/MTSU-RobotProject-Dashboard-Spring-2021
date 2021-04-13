@@ -14,6 +14,7 @@ function ParticipantTest() {
 
   const [mydata, setData] = useState();
   const [mycols, setCols] = useState();
+  const [props, setProps] = useState();
 
   useEffect(() => {
     async function getData() {
@@ -89,10 +90,14 @@ function ParticipantTest() {
 
           var myData = participants
 
-
+          const props = {
+            columns: myCols,
+            data: myData
+          }
           // set the Data and Cols States
           setCols(myCols)
           setData(myData);
+          setProps(props);
           // you tell it that you had the result
           setLoadingData(false);
         });
@@ -111,7 +116,7 @@ function ParticipantTest() {
       ) : (
         <div>
 
-          <Table data={mydata} columns={mycols} />
+          <Table props={props} />
         </div>
       )}
     </div>
