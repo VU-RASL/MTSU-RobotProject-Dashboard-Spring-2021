@@ -47,9 +47,7 @@ class Home extends Component{
             <Navbar/>
                 
             <div class = "container" style={{overflow:'hidden'}}>    
-                <div style={{float:'right'}}>
-                    <Search/>
-                </div>
+               
             <ParticipantTest/>
 
             <Agechart/>
