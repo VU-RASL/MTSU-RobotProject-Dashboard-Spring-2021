@@ -84,7 +84,7 @@ class LiveChart extends Component{
 
       
       // example of how I need the props to look once you pass in 
-      console.log(this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + 5 ) 
+      console.log(this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + 5 ) // the last int 5 is just place holder for the len of array
 
 
         // grab data that is being emit from the server.js and add to chart
