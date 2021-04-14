@@ -1,5 +1,5 @@
 // navbar code goes here
-import React, {Component} from 'react';
+import {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import Logout from '../layouts/Logout'
 import logo from '../images/vandy_logo.png'
@@ -32,7 +32,7 @@ class Navbar extends Component{
 
           <div class="header">
             
-            <nav class="navbar navbar-expand-lg navbar-light bg-dark py-0">
+            <nav class="navbar navbar-expand-lg py-0" style={{background:"black"}}>
   <a class="navbar-brand" href="/">
   <img src={logo} width="30" height="30" alt=""/>
 
@@ -43,7 +43,7 @@ class Navbar extends Component{
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" style = {{color:'#FFD700'}} href="/">Home <span class="sr-only">(current)</span></a>
       </div>
       <div class="navbar-nav ml-auto">
       <a class="nav-item nav-link "><Search/></a> 

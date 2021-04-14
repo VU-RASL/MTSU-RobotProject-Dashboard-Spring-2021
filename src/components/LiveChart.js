@@ -13,11 +13,15 @@ class LiveChart extends Component{
         super(props);
      
           this.state = {
+            // get props being sent from profile.js
             data:this.props.data,
             label:this.props.label,
             text:this.props.text,
             name:this.props.name,
-            id:this.props.id
+            id:this.props.id,
+            task:"musical_task_data",
+            level:"level_3",
+            run:"run_4"
 
         }
         
@@ -27,11 +31,7 @@ class LiveChart extends Component{
     componentDidMount(){
 
      
-      const mydata2 = { id:this.state.id}
-
-      socket.emit('getData', mydata2);
-
-
+      // prepare data for chart
       const mydata = {
         labels:this.state.label,
         datasets: [
@@ -46,6 +46,7 @@ class LiveChart extends Component{
         ]
       };
 
+      // create the chart, and insert data that was prepared above
       var ctx = document.getElementById("myChart"); 
       var myChart = new Chart(ctx, {
           type: 'line',
@@ -82,24 +83,25 @@ class LiveChart extends Component{
       });
 
       
+      // example of how I need the props to look once you pass in 
+      console.log(this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + 5 ) 
+
 
         // grab data that is being emit from the server.js and add to chart
         socket.on('data1',(res) =>{
           
-          //console.log(res)
-          var num = Array.from({length:1}, () => Math.floor(Math.random()*590)+10)
+          // var below creates random x axis point to add to chart 
+          var num = Array.from({length:1}, () => Math.floor(Math.random()*590)+10) 
 
          // server will send a response
          // need to check if the id from the response matches the current user id on profile page
          // if it does then we will add this data to chart    
-         
-         
          if (this.state.id === res.id){
           this.addData(myChart,num,res)
          }
-         // un comment to see demo of chart grow with random data
+        
          else{
-
+          // call function that adds random data to chart every 5 seconds 
           this.addDataRandom(myChart,num,res)
          }
           
@@ -110,7 +112,7 @@ class LiveChart extends Component{
     }
 
 
-    // extend datapoints on chart, this updates after data from mongodb is changed
+    // add data updates from mongodb
     addData(chart,label,data){
 
       // we may need to perform more check in this function to determine the exact run, and level to update the chart on 
@@ -132,8 +134,7 @@ class LiveChart extends Component{
     }
 
     
-    //un comment to see demo of random data sent to chart
-
+    // add random data to chart every 5 seconds from server 
     addDataRandom(chart,label,data){
 
       chart.data.labels.push(label);
@@ -154,9 +155,6 @@ class LiveChart extends Component{
     }
 
 
-  
-
-   
 
 
 render(){

@@ -1,6 +1,6 @@
 // bar chart for names and highest level reached
-import React, {Component} from 'react';
-import {Bar, Line, Pie} from 'react-chartjs-2'
+import {Component} from 'react';
+import {Bar} from 'react-chartjs-2'
 //import * as pluginAnnotation from 'chartjs-plugin-annotation'
 import axios from 'axios'
 

@@ -1,4 +1,5 @@
 // Table.js
+import "bootstrap/dist/css/bootstrap.min.css"
 import { useTable, useSortBy, usePagination, useGlobalFilter } from "react-table";
 import './table.css';
 import { GlobalFilter } from './GlobalFilter';

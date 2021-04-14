@@ -1,9 +1,7 @@
-// this is code for the home page (dashboard)
-import React, {Component} from 'react';
+import {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import Agechart from '../components/Agechart'
 import HighestLvlChart from '../components/HighestLvlChart'
-import Search from '../components/Search'
 import ParticipantTest from '../components1/ParticipantsTest'
 import Navbar from '../components/Navbar'
 
@@ -14,28 +12,23 @@ class Home extends Component{
     constructor(){
         super()
 
-        var go;
+        var shouldRedirect;
+        // check the local storage to see if token exists
         if (localStorage.getItem("token")!= null){
-            go = false
+            shouldRedirect = false
         }
         else{
-            go = true
+            shouldRedirect = true
         }
 
 
         this.state = {
-            redirect:go
+            redirect:shouldRedirect
         }
 
 
     }
    
-
-    
-
-
-    
-    
     render(){
       
 
@@ -46,7 +39,8 @@ class Home extends Component{
            
             <Navbar/>
                 
-            <div class = "container" style={{overflow:'hidden'}}>    
+            <div class = "container" >    
+            <div class = "body" style = {{paddingTop:"70px"}}>
                
             <ParticipantTest/>
 
@@ -54,10 +48,11 @@ class Home extends Component{
         
             <HighestLvlChart/>
             
+            {/* if token is not set in local storage redirect the user to login page */}
             { this.state.redirect ? (window.location="/login") : null }
            
             </div>
-        
+            </div>
         </div>
         )
     }
