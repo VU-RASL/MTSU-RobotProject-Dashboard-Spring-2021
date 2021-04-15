@@ -43,6 +43,7 @@ export default function Table(props) {
   return (
     <div>
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+      <br /><br />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
