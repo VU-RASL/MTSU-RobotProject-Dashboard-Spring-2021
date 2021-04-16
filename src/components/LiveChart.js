@@ -19,13 +19,15 @@ class LiveChart extends Component{
             text:this.props.text,
             name:this.props.name,
             id:this.props.id,
-            task:"musical_task_data",
-            level:"level_3",
-            run:"run_4"
+            task:this.props.task,
+            level:this.props.level,
+            run:this.props.run
+           
+           
 
         }
         
-        
+       
     }
 
     componentDidMount(){
@@ -84,7 +86,7 @@ class LiveChart extends Component{
 
       
       // example of how I need the props to look once you pass in 
-      console.log(this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + 5 ) // the last int 5 is just place holder for the len of array
+    
 
 
         // grab data that is being emit from the server.js and add to chart
@@ -96,31 +98,105 @@ class LiveChart extends Component{
          // server will send a response
          // need to check if the id from the response matches the current user id on profile page
          // if it does then we will add this data to chart    
-         if (this.state.id === res.id){
+         
+         if (this.props.id === res.id){
           this.addData(myChart,num,res)
          }
-        
+        /*
          else{
           // call function that adds random data to chart every 5 seconds 
           this.addDataRandom(myChart,num,res)
          }
-          
+          */
           //this.updateChartData(myChart,res,0);
         
         })
         
+    }
+  
+    // check for updates to props , then set new values to chart
+    componentDidUpdate(prevProps){
+
+      if(prevProps.data !== this.props.data){
+        const mydata = {
+          labels:this.props.label,
+          datasets: [
+            {
+              fill:false,
+              label: "run",
+              borderColor: "rgb(255, 99, 132)",
+              backgroundColor: "rgba(255, 99, 132, 0.5)",
+              borderWidth:1,
+              data: this.props.data
+            }
+          ]
+        };
+  
+        // create the chart, and insert data that was prepared above
+        var ctx = document.getElementById("myChart"); 
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: mydata,
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: true,
+                title:{
+                  display:true,
+                  text:this.props.text,
+                  fontSize:30
+  
+              },
+              legend:{
+                display: true,
+                position:'right',
+                labels:{
+                    fontColor: "#000080"
+                }
+                
+            
+            },
+            scales:{
+              yAxes:[{
+  
+                  ticks:{
+                      beginAtZero:true
+                  }
+              }]
+          }
+              
+            }
+        });
+      
+        // replace old states with new props
+        this.setState({
+          data:this.props.data,
+          label:this.props.label,
+          text:this.props.text,
+          name:this.props.name,
+          id:this.props.id,
+          task:this.props.task,
+          level:this.props.level,
+          run:this.props.run
+         
+
+        })
+      
+      
+      
+      }
+    
+    
     }
 
 
     // add data updates from mongodb
     addData(chart,label,data){
 
-      // we may need to perform more check in this function to determine the exact run, and level to update the chart on 
-      // as of now the chart will just update for the run 1 , level 1 charts 
-
+      
       var lenOfArray = this.state.label.length
 
-      var resProp = 'musical_task_data.level_history_data.level_1.run_1.' + (lenOfArray)
+      // grab the task , level and run from props
+      var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
 
 
       chart.data.labels.push(label);
@@ -137,10 +213,12 @@ class LiveChart extends Component{
     // add random data to chart every 5 seconds from server 
     addDataRandom(chart,label,data){
 
+      var lenOfArray = this.state.label.length
+      var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
       chart.data.labels.push(label);
 
       chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data)
+        dataset.data.push(data.data[resProp])
       })
       
       

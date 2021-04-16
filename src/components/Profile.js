@@ -9,6 +9,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Select from 'react-select';
 import '../components/style.scss';
 
+
+
 // set the css for the load animation 
 const override = css`
 position: absolute;
@@ -38,7 +40,8 @@ class Profile extends Component {
             run: null, // var for specific run
             level: null, // var for specific level 
             task: null, // var for what type of task ( musical / paint )
-
+            renderLiveChart: false,
+            
         }
 
     }
@@ -101,7 +104,6 @@ class Profile extends Component {
                     disableRunDropdown: [],
                     selectedRun: '',
                     selectedRunValue: '',
-                    renderLiveChart: false,
                     highestScoreOfLevel: ''
 
                 })
@@ -124,6 +126,7 @@ class Profile extends Component {
             })
         })
 
+        newState.task = e.value
         newState.selectedTask = e;
         newState.selectedTaskValue = task;
         newState.levelData = levelData;
@@ -146,6 +149,7 @@ class Profile extends Component {
     async handleLevelChange(e) {
         const newState = { ...this.state };
         const level = e.value;
+       
         const runs = newState.data[newState.selectedTaskValue].level_history_data[level]
         const runData = [];
         Object.entries(runs).map(item => {
@@ -155,6 +159,7 @@ class Profile extends Component {
             })
         })
 
+        newState.level = e.value
         newState.selectedLevel = e;
         newState.selectedLevelValue = level;
         newState.runData = runData;
@@ -178,7 +183,9 @@ class Profile extends Component {
         newState.renderLiveChart = true;
         newState.dataForChart = newState.data[newState.selectedTaskValue]
             .level_history_data[newState.selectedLevelValue][newState.selectedRunValue];
-
+       
+        newState.run = e.value
+        
         newState.numPoints = []
         for (var i = 0; i < newState.dataForChart.length; i++) {
             newState.numPoints.push(i)
@@ -188,6 +195,7 @@ class Profile extends Component {
             + ' - ' + newState.selectedRunValue;
 
         await this.setState(Object.assign({ ...newState }));
+        
         console.log(this.state);
     }
 
@@ -205,7 +213,7 @@ class Profile extends Component {
             // this will show entire component once the loading is complete 
             // place components you want to show on page here
             var liveChart = this.state.renderLiveChart ?
-                <LiveChart data={this.state.dataForChart} label={this.state.numPoints} text={this.state.title_Text} name={this.state.name} id={this.state.id} />
+                <LiveChart data={this.state.dataForChart} label={this.state.numPoints} text={this.state.title_Text} name={this.state.name} id={this.state.id} run = {this.state.run} task = {this.state.task} level={this.state.level}/>
                 : <br />
             var ComponentLoaded =
                 <div id="navbar">
@@ -231,6 +239,7 @@ class Profile extends Component {
                                         isDisabled={this.state.disableTaskDropdown}
                                         value={this.state.selectedTask}
                                         onChange={this.handleTaskChange.bind(this)}
+                                        
                                     />
                                 </div>
                                 <div className='select-style'>
