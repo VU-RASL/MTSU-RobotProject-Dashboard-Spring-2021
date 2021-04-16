@@ -229,7 +229,54 @@ class Profile extends Component {
 
                         <div class="body" className='profile-body-padding'>
 
-                            <h6 className="display-4">This is {this.state.data.name}'s profile page!</h6>
+                        {/* Brooke and stuart cards start */}        
+                        <div class="row">
+                            <div class="column_1">
+                                <div class="card_1">
+                                   
+                                    <h1>  Name:{this.state.data.name}</h1>
+                                    <h1>  Age:{this.state.data.age} </h1>
+                                    </div>
+                            </div>
+                            </div>
+
+                            <div class = "row">
+                            <div class="col col-md-6">
+                                <div class="card" width="800px">
+                                    
+                                    <h1>Musical Task Stats</h1>
+                                    <div class="row_1">
+                                        <div class="column">
+                                            <h4>High Score: </h4> 
+                                            <p>1234</p>
+                                        </div>
+                                        <div class="column">
+                                            <h4>Highest Level Achieved: </h4>
+                                            <p>{this.state.data.musical_task_data.highest_level_played}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col col-md-6">
+                            <div class="card" width="40%" >
+                                <h1>Painting Task Stats</h1>
+                                <div class="row_2">
+                                        <div class="column">
+                                            <h4>High Score: </h4> 
+                                            <p>1337</p>
+                                        </div>
+                                        <div class="column">
+                                            <h4>Highest Level Achieved: </h4>
+                                            <p>{this.state.data.paint_task_data.highest_level_played}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        {/* Brooke and stuart cards end */}                            
+                            
                             <br />
                             <div className='display-flex'>
                                 <div className='select-style'>

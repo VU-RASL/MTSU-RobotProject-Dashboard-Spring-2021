@@ -21,7 +21,8 @@ class LiveChart extends Component{
             id:this.props.id,
             task:this.props.task,
             level:this.props.level,
-            run:this.props.run
+            run:this.props.run,
+            chart:null
            
            
 
@@ -84,8 +85,9 @@ class LiveChart extends Component{
           }
       });
 
+      this.setState({chart:myChart})
       
-      // example of how I need the props to look once you pass in 
+      
     
 
 
@@ -95,29 +97,40 @@ class LiveChart extends Component{
           // var below creates random x axis point to add to chart 
           var num = Array.from({length:1}, () => Math.floor(Math.random()*590)+10) 
 
-         // server will send a response
-         // need to check if the id from the response matches the current user id on profile page
-         // if it does then we will add this data to chart    
          
-         if (this.props.id === res.id){
-          this.addData(myChart,num,res)
-         }
+
+          
+        // check if the the current state chart matches the updates coming from mongodb
+        //var lenOfArray = this.state.label.length 
+        //var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
+        //var match = res.data.hasOwnProperty(resProp)
+        
+        
+        this.addDataRandom(this.state.chart,num,res)
+        
+
         /*
+         if (this.props.id === res.id && match === true){
+          this.addData(this.state.chart,num,res)
+         }
+        
          else{
           // call function that adds random data to chart every 5 seconds 
-          this.addDataRandom(myChart,num,res)
+          this.addDataRandom(this.state.chart,num,res)
          }
-          */
+          
           //this.updateChartData(myChart,res,0);
-        
+      */  
         })
-        
+      
     }
   
     // check for updates to props , then set new values to chart
     componentDidUpdate(prevProps){
 
       if(prevProps.data !== this.props.data){
+        this.state.chart.destroy() // destroy old instance of chart before create new one
+
         const mydata = {
           labels:this.props.label,
           datasets: [
@@ -176,7 +189,8 @@ class LiveChart extends Component{
           id:this.props.id,
           task:this.props.task,
           level:this.props.level,
-          run:this.props.run
+          run:this.props.run,
+          chart:myChart
          
 
         })
@@ -189,10 +203,28 @@ class LiveChart extends Component{
     }
 
 
+    componentWillUnmount(){
+
+      this.setState({
+        data:null,
+          label:null,
+          text:null,
+          name:null,
+          id:null,
+          task:null,
+          level:null,
+          run:null
+
+      })
+
+
+    }
+
+    
     // add data updates from mongodb
     addData(chart,label,data){
 
-      
+      //console.log(this.state)
       var lenOfArray = this.state.label.length
 
       // grab the task , level and run from props
@@ -207,6 +239,9 @@ class LiveChart extends Component{
       
       
       chart.update();
+
+      // increment len of array by 1
+      lenOfArray+=1
     }
 
     
@@ -218,7 +253,7 @@ class LiveChart extends Component{
       chart.data.labels.push(label);
 
       chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data.data[resProp])
+        dataset.data.push(data)
       })
       
       
