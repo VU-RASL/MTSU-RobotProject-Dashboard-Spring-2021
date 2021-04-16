@@ -99,17 +99,18 @@ class LiveChart extends Component{
 
          
 
-          
+        /* uncomment when want to see live updates from mongodb 
         // check if the the current state chart matches the updates coming from mongodb
-        //var lenOfArray = this.state.label.length 
-        //var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
-        //var match = res.data.hasOwnProperty(resProp)
+        var lenOfArray = this.state.label.length 
+        var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
+        var match = res.data.hasOwnProperty(resProp)
+        */
         
         
-        this.addDataRandom(this.state.chart,num,res)
+        this.addDataRandom(this.state.chart,num,res) 
         
 
-        /*
+        /* uncomment when want to see live updates from mongodb 
          if (this.props.id === res.id && match === true){
           this.addData(this.state.chart,num,res)
          }
@@ -202,9 +203,8 @@ class LiveChart extends Component{
     
     }
 
-
+    // might not be needed will examine later..
     componentWillUnmount(){
-
       this.setState({
         data:null,
           label:null,
