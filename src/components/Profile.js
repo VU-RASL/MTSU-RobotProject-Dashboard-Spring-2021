@@ -280,7 +280,7 @@ class Profile extends Component {
                                 <div class="col col-md-6">
                                     <div class="card-task" >
 
-                                        <h1 style={{ borderBottom: "4px solid gray" }}> Musical Task Stats <img src={music_icon} width="50" height="50" alt="" /></h1>
+                                        <h1 style={{ borderBottom: "4px solid black" }}> Musical Task Stats <img src={music_icon} width="50" height="50" alt="" /></h1>
 
                                         <div class="row_1">
                                             <div class="column">
