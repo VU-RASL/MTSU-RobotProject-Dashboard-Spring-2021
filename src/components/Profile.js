@@ -8,6 +8,7 @@ import { css } from "@emotion/core";
 import ClipLoader from "react-spinners/ClipLoader";
 import Select from 'react-select';
 import '../components/style.scss';
+import person_icon from '../images/icons/icons-person.png'
 
 
 
@@ -41,8 +42,9 @@ class Profile extends Component {
             level: null, // var for specific level 
             task: null, // var for what type of task ( musical / paint )
             renderLiveChart: false,
-            
+
         }
+        
 
     }
 
@@ -149,7 +151,7 @@ class Profile extends Component {
     async handleLevelChange(e) {
         const newState = { ...this.state };
         const level = e.value;
-       
+
         const runs = newState.data[newState.selectedTaskValue].level_history_data[level]
         const runData = [];
         Object.entries(runs).map(item => {
@@ -183,9 +185,9 @@ class Profile extends Component {
         newState.renderLiveChart = true;
         newState.dataForChart = newState.data[newState.selectedTaskValue]
             .level_history_data[newState.selectedLevelValue][newState.selectedRunValue];
-       
+
         newState.run = e.value
-        
+
         newState.numPoints = []
         for (var i = 0; i < newState.dataForChart.length; i++) {
             newState.numPoints.push(i)
@@ -195,7 +197,7 @@ class Profile extends Component {
             + ' - ' + newState.selectedRunValue;
 
         await this.setState(Object.assign({ ...newState }));
-        
+
         console.log(this.state);
     }
 
@@ -213,8 +215,26 @@ class Profile extends Component {
             // this will show entire component once the loading is complete 
             // place components you want to show on page here
             var liveChart = this.state.renderLiveChart ?
-                <LiveChart data={this.state.dataForChart} label={this.state.numPoints} text={this.state.title_Text} name={this.state.name} id={this.state.id} run = {this.state.run} task = {this.state.task} level={this.state.level}/>
+                <LiveChart data={this.state.dataForChart} label={this.state.numPoints} text={this.state.title_Text} name={this.state.name} id={this.state.id} run={this.state.run} task={this.state.task} level={this.state.level} />
                 : <br />
+
+            // create conditional that lets user know when to scroll down for music task list 
+            if (Object.keys(this.state.data.musical_task_data.level_history_data).length > 2) {
+                var conditionalTextmusic = <p style={{ color: "green" }}>Scroll down within list to see other content</p>
+            }
+            else {
+                var conditionalTextmusic = null
+            }
+
+
+            // create conditional that lets user know when to scroll down for paint task list 
+            if (Object.keys(this.state.data.paint_task_data.level_history_data).length > 2) {
+                var conditionalTextpaint = <p style={{ color: "green" }}>Scroll down within list to see other content</p>
+            }
+            else {
+                var conditionalTextpaint = null
+            }
+
             var ComponentLoaded =
                 <div id="navbar">
 
@@ -229,54 +249,104 @@ class Profile extends Component {
 
                         <div class="body" className='profile-body-padding'>
 
-                        {/* Brooke and stuart cards start */}        
-                        <div class="row">
-                            <div class="column_1">
-                                <div class="card_1">
-                                   
-                                    <h1>  Name:{this.state.data.name}</h1>
-                                    <h1>  Age:{this.state.data.age} </h1>
-                                    </div>
+                            {/* Brooke and stuart cards start */}
+                            <div class="row">
+                                <img src={person_icon} width="60" height="60" alt="" />
+                                <h1>  {this.state.data.name}</h1>
+
                             </div>
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="media d-flex">
+                                                <div class="align-self-center">
+
+                                                </div>
+                                                <div class="row">
+                                                    <h3>Age: </h3>
+                                                    <h3>{this.state.data.age}</h3>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div class = "row">
-                            <div class="col col-md-6">
-                                <div class="card" width="800px">
-                                    
-                                    <h1>Musical Task Stats</h1>
-                                    <div class="row_1">
-                                        <div class="column">
-                                            <h4>High Score: </h4> 
-                                            <p>1234</p>
+
+
+                            <div class="row">
+                                <div class="col col-md-6">
+                                    <div class="card-task" >
+
+                                        <h1>Musical Task Stats</h1>
+                                        <div class="row_1">
+                                            <div class="column">
+                                                <h3>Levels Completed: </h3>
+                                                <p style={{ fontStyle: "italic" }}>Highest scores per level included</p>
+                                                {conditionalTextmusic}
+
+
+
+                                                <ul style={{ overflow: "hidden", overflowY: "scroll", height: "50px" }}>
+                                                    {
+                                                        Object.entries(this.state.data.musical_task_data.highest_scores_per_level).map(function ([level, score]) {
+                                                            // returns Nathan, then John, then Jane
+                                                            return <li> {level} : {score} </li>
+                                                        })
+                                                    }
+
+                                                </ul>
+
+
+                                            </div>
+                                            <div class="column">
+                                                <h4>Highest Level Achieved: </h4>
+                                                <p>{this.state.data.musical_task_data.highest_level_played}</p>
+                                            </div>
                                         </div>
-                                        <div class="column">
-                                            <h4>Highest Level Achieved: </h4>
-                                            <p>{this.state.data.musical_task_data.highest_level_played}</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col col-md-6">
+                                    <div class="card-task"  >
+                                        <h1>Painting Task Stats</h1>
+                                        <div class="row_2">
+                                            <div class="column">
+                                                <h3>Levels Completed: </h3>
+                                                <p style={{ fontStyle: "italic" }}>Highest scores per level included</p>
+                                                {conditionalTextpaint}
+
+                                                <ul style={{ overflow: "hidden", overflowY: "scroll", height: "50px" }}>
+                                                    {
+                                                        // return levels and highest score in list, scroll enabled
+                                                        Object.entries(this.state.data.paint_task_data.highest_scores_per_level).map(function ([level, score]) {
+
+                                                            return <li> {level} : {score} </li>
+                                                        })
+                                                    }
+
+
+                                                </ul>
+
+                                            </div>
+                                            <div class="column">
+                                                <h4>Highest Level Achieved: </h4>
+                                                <p>{this.state.data.paint_task_data.highest_level_played}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {/* Brooke and stuart cards end */}
 
-
-                            <div class="col col-md-6">
-                            <div class="card" width="40%" >
-                                <h1>Painting Task Stats</h1>
-                                <div class="row_2">
-                                        <div class="column">
-                                            <h4>High Score: </h4> 
-                                            <p>1337</p>
-                                        </div>
-                                        <div class="column">
-                                            <h4>Highest Level Achieved: </h4>
-                                            <p>{this.state.data.paint_task_data.highest_level_played}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        {/* Brooke and stuart cards end */}                            
-                            
                             <br />
                             <div className='display-flex'>
                                 <div className='select-style'>
@@ -286,7 +356,7 @@ class Profile extends Component {
                                         isDisabled={this.state.disableTaskDropdown}
                                         value={this.state.selectedTask}
                                         onChange={this.handleTaskChange.bind(this)}
-                                        
+
                                     />
                                 </div>
                                 <div className='select-style'>
@@ -297,7 +367,7 @@ class Profile extends Component {
                                         value={this.state.selectedLevel}
                                         onChange={this.handleLevelChange.bind(this)}
                                     />
-                                    <br />
+                                    
                                     <div id='highestScoreOfLevel'></div>
                                 </div>
                                 <div className='select-style'>
@@ -315,6 +385,7 @@ class Profile extends Component {
 
                             <br /><br /><br />
                             {/* Render live chart on conditional basis */}
+                            
                             {liveChart}
 
 
@@ -326,7 +397,7 @@ class Profile extends Component {
 
         return (
 
-            <div>
+            <div style={{paddingBottom: "50px"}}>
                 {/* Place components in this page within the "else" conditional statement above */}
                 {ComponentLoaded}
 

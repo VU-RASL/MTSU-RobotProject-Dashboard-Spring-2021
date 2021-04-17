@@ -5,6 +5,10 @@
 
 .display-flex {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:20px;
+   
 }
 
 .profile-body-padding {
@@ -14,3 +18,14 @@
 .float-right {
     float: right;
 }
+
+
+.card-task{
+    border: 0;
+    border-radius: 25.5px;
+    box-shadow: 0 10px 30px 0 rgba(41, 40, 40, 0.43);
+    padding:20px;
+}
+
+
+
