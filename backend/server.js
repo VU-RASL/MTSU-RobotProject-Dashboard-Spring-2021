@@ -47,7 +47,7 @@ const io = require('socket.io')(server, {
 
     // when socket is connected will run function below
     io.sockets.on('connection',(socket) =>{
-        console.log('socket io connected');
+        //console.log('socket io connected');
         
             // watch for changes on the participants collection
             db.collection('participants').watch().on('change', (change) => {
