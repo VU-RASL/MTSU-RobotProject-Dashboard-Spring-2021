@@ -8,7 +8,7 @@ import crowd_icon from '../images/icons/icons-crowd.png'
 import age_icon from '../images/icons/icons-age-calender.png'
 import chart_fall_icon from '../images/icons/icons-chart-decreasing.png'
 import chart_rise_icon from '../images/icons/icons-chart-increasing.png'
-
+import axios from 'axios'
 
 
 
@@ -28,10 +28,57 @@ class Home extends Component{
 
 
         this.state = {
-            redirect:shouldRedirect
+            redirect:shouldRedirect,
+            total_participants:null,
+            avg_age:null
         }
 
 
+    }
+
+    componentDidMount(){
+
+      axios.get('http://localhost:4000/app/data')
+      .then(response => {
+          //console.log(response.data)
+          this.setState({data:response.data})
+
+          // get list of ages and names
+          var names = []
+          var ages = []
+          for (const dataObj of response.data){
+            names.push(dataObj.name)
+            ages.push(dataObj.age)
+            }
+
+
+          // get avg age 
+          var total = 0
+          for(var i = 0; i < ages.length; i++){
+
+            total+= ages[i];
+          }
+          var avg = Math.round(total / ages.length)
+          
+
+          // set states
+          this.setState({total_participants:names.length,avg_age:avg})
+         
+      })
+
+    }
+
+
+    getNumParticipants(){
+
+
+      var j = Object.keys(this.state.data.name).map(function (data) {
+
+        return data
+    })
+
+
+    console.log(j)
     }
    
     render(){
@@ -48,7 +95,7 @@ class Home extends Component{
 
 
         {/* Row of cards start */}
-     <div class="row" style = {{paddingTop:"30px"}}>
+     <div class="row d-flex justify-content-center" style = {{paddingTop:"30px"}}>
       <div class="col-xl-3 col-sm-6 col-12"> 
         <div class="card">
           <div class="card-content">
@@ -58,7 +105,7 @@ class Home extends Component{
                 <img src={crowd_icon} width="60" height="60" alt=""/>
                 </div>
                 <div class="media-body text-right">
-                  <h3>278</h3>
+                  <h3>{this.state.total_participants}</h3>
                   <span>Number of Participants</span>
                 </div>
               </div>
@@ -67,42 +114,6 @@ class Home extends Component{
         </div>
       </div>
 
-      <div class="col-xl-3 col-sm-6 col-12"> 
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="align-self-center">
-                <img src={chart_rise_icon} width="60" height="60" alt=""/>
-                </div>
-                <div class="media-body text-right">
-                  <h3>278</h3>
-                  <span>Highest Performing Level</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="col-xl-3 col-sm-6 col-12"> 
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="align-self-center">
-                <img src={chart_fall_icon} width="60" height="60" alt=""/>
-                </div>
-                <div class="media-body text-right">
-                  <h3>278</h3>
-                  <span>Lowest Performing Level</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
       <div class="col-xl-3 col-sm-6 col-12"> 
@@ -114,7 +125,7 @@ class Home extends Component{
                 <img src={age_icon} width="60" height="60" alt=""/>
                 </div>
                 <div class="media-body text-right">
-                  <h3>78</h3>
+                  <h3>{this.state.avg_age}</h3>
                   <span>Average Age of Particpants</span>
                 </div>
               </div>

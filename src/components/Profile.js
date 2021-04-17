@@ -9,6 +9,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Select from 'react-select';
 import '../components/style.scss';
 import person_icon from '../images/icons/icons-person.png'
+import paint_icon from '../images/icons/icons-paint_palette.png'
+import music_icon from '../images/icons/icons-music_notes.png'
 
 
 
@@ -44,7 +46,7 @@ class Profile extends Component {
             renderLiveChart: false,
 
         }
-        
+
 
     }
 
@@ -73,7 +75,6 @@ class Profile extends Component {
                         });
                     }
                 }
-
 
                 var run_Data = res.data.data.musical_task_data.level_history_data.level_1.run_1
                 var points = run_Data.length // get length of runs array 
@@ -250,34 +251,28 @@ class Profile extends Component {
                         <div class="body" className='profile-body-padding'>
 
                             {/* Brooke and stuart cards start */}
-                            <div class="row">
-                                <img src={person_icon} width="60" height="60" alt="" />
-                                <h1>  {this.state.data.name}</h1>
 
-                            </div>
-                            <div class="row">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div class="media d-flex">
-                                                <div class="align-self-center">
 
-                                                </div>
-                                                <div class="row">
-                                                    <h3>Age: </h3>
-                                                    <h3>{this.state.data.age}</h3>
-                                                </div>
-                                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-7 col-md-12">
+                                    <div class="card-profile">
+                                        <div class="body">
                                             <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-12">
+                                                    <div class="float-md-right"> <img src={person_icon} width="60" height="60" alt="" /> </div>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-12">
+                                                    <h4><strong>  {this.state.data.name} </strong></h4>
+                                                    <span class="details">Age: {this.state.data.age} </span>
 
-
+                                                </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+
+
 
 
 
@@ -285,7 +280,8 @@ class Profile extends Component {
                                 <div class="col col-md-6">
                                     <div class="card-task" >
 
-                                        <h1>Musical Task Stats</h1>
+                                        <h1 style={{ borderBottom: "4px solid gray" }}> Musical Task Stats <img src={music_icon} width="50" height="50" alt="" /></h1>
+
                                         <div class="row_1">
                                             <div class="column">
                                                 <h3>Levels Completed: </h3>
@@ -296,8 +292,9 @@ class Profile extends Component {
 
                                                 <ul style={{ overflow: "hidden", overflowY: "scroll", height: "50px" }}>
                                                     {
+                                                        // return levels and highest score in list, scroll enabled
                                                         Object.entries(this.state.data.musical_task_data.highest_scores_per_level).map(function ([level, score]) {
-                                                            // returns Nathan, then John, then Jane
+
                                                             return <li> {level} : {score} </li>
                                                         })
                                                     }
@@ -316,8 +313,8 @@ class Profile extends Component {
 
 
                                 <div class="col col-md-6">
-                                    <div class="card-task"  >
-                                        <h1>Painting Task Stats</h1>
+                                    <div class="card-task" >
+                                        <h1 style={{ borderBottom: "4px solid black" }}>Painting Task Stats <img src={paint_icon} width="50" height="50" alt="" /> </h1>
                                         <div class="row_2">
                                             <div class="column">
                                                 <h3>Levels Completed: </h3>
@@ -367,7 +364,7 @@ class Profile extends Component {
                                         value={this.state.selectedLevel}
                                         onChange={this.handleLevelChange.bind(this)}
                                     />
-                                    
+
                                     <div id='highestScoreOfLevel'></div>
                                 </div>
                                 <div className='select-style'>
@@ -385,7 +382,7 @@ class Profile extends Component {
 
                             <br /><br /><br />
                             {/* Render live chart on conditional basis */}
-                            
+
                             {liveChart}
 
 
@@ -397,7 +394,7 @@ class Profile extends Component {
 
         return (
 
-            <div style={{paddingBottom: "50px"}}>
+            <div style={{ paddingBottom: "50px" }}>
                 {/* Place components in this page within the "else" conditional statement above */}
                 {ComponentLoaded}
 
