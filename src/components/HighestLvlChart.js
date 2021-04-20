@@ -1,117 +1,115 @@
 // bar chart for names and highest level reached
-import {Component} from 'react';
-import {Bar} from 'react-chartjs-2'
+import { Component } from 'react';
+import { Bar } from 'react-chartjs-2'
 //import * as pluginAnnotation from 'chartjs-plugin-annotation'
 import axios from 'axios'
 
-class HighestLvlChart extends Component{
-    constructor(){
+class HighestLvlChart extends Component {
+    constructor() {
         super();
         this.state = {
-            chartData:null    
-        }  
+            chartData: null
+        }
     }
 
-    componentWillMount(){
+    componentWillMount() {
 
         this.getChartData();
     }
 
 
-    getChartData(){
+    getChartData() {
         let names = [];
         let rank = [];
         axios.get('http://localhost:4000/app/data').then(res => {
 
-        //console.log(res);
-         for (const dataObj of res.data){
-            names.push(dataObj.name)
-            rank.push((parseInt(dataObj.musical_task_data.highest_level_played))
-            
-            )}
-            var mychartData = {  
-            
+            for (const dataObj of res.data) {
+                names.push(dataObj.name)
+                rank.push((parseInt(dataObj.musical_task_data.highest_level_played))
+
+                )
+            }
+            var mychartData = {
+
                 labels: names,
-                
-                datasets:[
-                {
-                    label:"highest level reached",
-                    
-                    data: rank,
-                    
-                    backgroundColor:[
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)',
-                        '#2E8B57',
-                        '#0000FF',
-                        '#4B0082',
-                        '#FF1493'
-                       
-                    ]
-                }]
+
+                datasets: [
+                    {
+                        label: "highest level reached",
+
+                        data: rank,
+
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            '#2E8B57',
+                            '#0000FF',
+                            '#4B0082',
+                            '#FF1493'
+
+                        ]
+                    }]
 
             }
 
-            this.setState({chartData:mychartData})
-       }).catch(err => {
-    
-        //console.log(err);
-       })
-       //console.log(names,rank)  
+            this.setState({ chartData: mychartData })
+        }).catch(err => {
+
+        })
     }
 
-render(){
-    return (
+    render() {
+        return (
 
-    <div className="chart">
+            <div className="chart">
 
-        <Bar
-            data={this.state.chartData}
+                <Bar
+                    data={this.state.chartData}
 
-            options={{ 
-                responsive: true,
-                maintainAspectRatio: true,
-               
-                title:{
-                    display:true,
-                    text: "Highest level reached ",
-                    fontSize:30
-                },
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
 
-                legend:{
-                    display: true,
-                    position:'right',
-                    labels:{
-                        fontColor: "#000080"
-                    }
+                        title: {
+                            display: true,
+                            text: "Highest level reached ",
+                            fontSize: 30
+                        },
 
-                },
-                scales:{
-                    yAxes:[{
+                        legend: {
+                            display: true,
+                            position: 'right',
+                            labels: {
+                                fontColor: "#000080"
+                            }
 
-                        ticks:{
-                            beginAtZero:true
+                        },
+                        scales: {
+                            yAxes: [{
+
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        plugins: {
+                            // still need to figure out how to add plugins for the chart
+                            // pluginAnnotation would go here 
                         }
-                    }]
-                },
-                plugins:{
-                // still need to figure out how to add plugins for the chart
-                // pluginAnnotation would go here 
-                }
-                
-            }}
 
-        />
-        
-    </div>
+                    }}
+
+                />
+
+            </div>
 
 
-    )
-}
+        )
+    }
 
 
 

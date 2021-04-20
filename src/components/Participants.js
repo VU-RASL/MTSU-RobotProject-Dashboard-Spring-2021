@@ -4,7 +4,7 @@ import Table from "./Table";
 
 
 
-function ParticipantTest() {
+function Participants() {
   // here you set a state to tell the component it need to wait
   //  until the result is fetched from the api
   const [loadingData, setLoadingData] = useState(true);
@@ -21,8 +21,6 @@ function ParticipantTest() {
       await axios
         .get("http://localhost:4000/app/data")
         .then((response) => {
-          // check if the data is populated
-          // console.log(response.data[0].musical_task_data.highest_scores_per_level);
 
           // performing a null check
           // if (response.data && response.data.length > 0) {
@@ -89,6 +87,7 @@ function ParticipantTest() {
           })
 
           var myData = participants
+          sessionStorage.setItem('participants', JSON.stringify(participants));
 
           const props = {
             columns: myCols,
@@ -123,4 +122,4 @@ function ParticipantTest() {
   );
 }
 
-export default ParticipantTest;
+export default Participants;

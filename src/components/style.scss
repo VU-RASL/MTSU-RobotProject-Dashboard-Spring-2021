@@ -11,6 +11,10 @@
    
 }
 
+.display-type-flex {
+    display: flex;
+}
+
 .profile-body-padding {
     padding-top: 70px;
 }
@@ -25,6 +29,7 @@
     border-radius: 25.5px;
     box-shadow: 0 10px 30px 0 rgba(41, 40, 40, 0.43);
     padding:20px;
+    margin-bottom: 30px;
 }
 
 .card-profile {

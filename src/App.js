@@ -12,41 +12,34 @@ function App() {
 
   return (
     <Router>
-    <div className="App">
+      <div className="App">
 
-    
+        <Switch>
 
+          <Route exact path="/register">
+            <Register />
+          </Route>
 
-
-
-      
-      
-      <Switch>
-      
-      <Route exact path="/register"> 
-              <Register /> 
-            </Route>
-
-      <Route exact path="/login">
+          <Route exact path="/login">
             <Login />
-      </Route>
+          </Route>
 
-      <Route exact path="/" component={Home}>
-            
-      </Route>
+          <Route exact path="/" component={Home}>
 
-      <Route exact path="/test">
-        
-           
-      </Route>
+          </Route>
 
-      <Route exact path="/participant_profile" component={Profile}>
-            
-      </Route>
+          <Route exact path="/test">
 
-      </Switch>
-      
-    </div>
+
+          </Route>
+
+          <Route exact path="/participant_profile" component={Profile}>
+
+          </Route>
+
+        </Switch>
+
+      </div>
     </Router>
   );
 }
