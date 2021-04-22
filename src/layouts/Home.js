@@ -6,31 +6,46 @@ import Participants from '../components/Participants'
 import Navbar from '../components/Navbar'
 import crowd_icon from '../images/icons/icons-crowd.png'
 import age_icon from '../images/icons/icons-age-calender.png'
-import chart_fall_icon from '../images/icons/icons-chart-decreasing.png'
-import chart_rise_icon from '../images/icons/icons-chart-increasing.png'
 import axios from 'axios'
 
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+
+
+// set the css for the load animation 
+const override = css`
+position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+  border-color: red;
+`;
 
 
 
 class Home extends Component {
   constructor() {
     super()
+    
+    // check if user has token before showing data, if no token redirect to login page
+    var redirect
+    if (localStorage.getItem("token") ){
 
-    var shouldRedirect;
-    // check the local storage to see if token exists
-    if (localStorage.getItem("token") != null) {
-      shouldRedirect = false
+        redirect = false
+    }else{
+
+      redirect = true
     }
-    else {
-      shouldRedirect = true
-    }
-
-
+    
+    
     this.state = {
-      redirect: shouldRedirect,
       total_participants: null,
-      avg_age: null
+      avg_age: null,
+      loading: true,
+      shouldRedirect:redirect
     }
 
 
@@ -61,104 +76,109 @@ class Home extends Component {
 
 
         // set states
-        this.setState({ total_participants: names.length, avg_age: avg })
+        this.setState({ total_participants: names.length, avg_age: avg, loading: false })
 
       })
 
   }
 
 
-  getNumParticipants() {
 
-
-    var j = Object.keys(this.state.data.name).map(function (data) {
-
-      return data
-    })
-
-  }
 
   render() {
+    var ComponentLoaded = null
+    if (this.state.loading === true) {
+      // a loading icon animation will show if the data is null 
+      ComponentLoaded =
+        <div className="container">
+          <ClipLoader css={override} size={150} color={"#123abc"} loading={this.state.loading} />
+
+        </div>
+    }
+    else {
+
+      ComponentLoaded =
+        <div id="navbar">
+
+          <Navbar />
+
+          <div className="container" >
 
 
-    return (
-
-
-      <div id="navbar">
-
-        <Navbar />
-
-        <div class="container" >
-
-
-          {/* Row of cards start */}
-          <div class="row d-flex justify-content-center" style={{ paddingTop: "30px" }}>
-            <div class="col-xl-3 col-sm-6 col-12">
-              <div class="card">
-                <div class="card-content">
-                  <div class="card-body">
-                    <div class="media d-flex">
-                      <div class="align-self-center">
-                        <img src={crowd_icon} width="60" height="60" alt="" />
-                      </div>
-                      <div class="media-body text-right">
-                        <h3>{this.state.total_participants}</h3>
-                        <span>Number of Participants</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-            <div class="col-xl-3 col-sm-6 col-12">
-              <div class="card">
-                <div class="card-content">
-                  <div class="card-body">
-                    <div class="media d-flex">
-                      <div class="align-self-center">
-                        <img src={age_icon} width="60" height="60" alt="" />
-                      </div>
-                      <div class="media-body text-right">
-                        <h3>{this.state.avg_age}</h3>
-                        <span>Average Age of Particpants</span>
+            {/* Row of cards start */}
+            <div className="row d-flex justify-content-center" style={{ paddingTop: "30px" }}>
+              <div className="col-xl-3 col-sm-6 col-12">
+                <div className="card">
+                  <div className="card-content">
+                    <div className="card-body">
+                      <div className="media d-flex">
+                        <div className="align-self-center">
+                          <img src={crowd_icon} width="60" height="60" alt="" />
+                        </div>
+                        <div className="media-body text-right">
+                          <h3>{this.state.total_participants}</h3>
+                          <span>Number of Participants</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+
+
+              <div className="col-xl-3 col-sm-6 col-12">
+                <div className="card">
+                  <div className="card-content">
+                    <div className="card-body">
+                      <div className="media d-flex">
+                        <div className="align-self-center">
+                          <img src={age_icon} width="60" height="60" alt="" />
+                        </div>
+                        <div className="media-body text-right">
+                          <h3>{this.state.avg_age}</h3>
+                          <span>Average Age of Particpants</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-          </div>
-
-          {/* Row of cards end */}
+            {/* Row of cards end */}
 
 
-          <div class="body" style={{ paddingTop: "70px" }}>
+            <div className="body" style={{ paddingTop: "70px" }}>
 
-            <Participants />
-
-
-            <Agechart />
+              <Participants />
 
 
-            <HighestLvlChart />
+              <Agechart />
 
 
-            {/* if token is not set in local storage redirect the user to login page */}
-            {this.state.redirect ? (window.location = "/login") : null}
+              <HighestLvlChart />
 
+
+
+
+            </div>
           </div>
         </div>
 
 
+    }
 
+    return (
 
+      <div>
 
-
+        {/* if token is not set in local storage redirect the user to login page */}
+        {this.state.shouldRedirect? (window.location = "/login"): null}
+        {ComponentLoaded}
       </div>
+
     )
   }
 

@@ -12,7 +12,7 @@ class HighestLvlChart extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         this.getChartData();
     }

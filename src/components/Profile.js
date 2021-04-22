@@ -31,6 +31,21 @@ class Profile extends Component {
 
     constructor(props) {
         super(props)
+
+
+        // check if user has token before showing data, if no token redirect to login page
+    var redirect
+    if (localStorage.getItem("token") ){
+
+        redirect = false
+    }else{
+
+      redirect = true
+    }
+
+
+
+
         this.state = {
             data: [],
             name: this.props.location.state.name, // var for name of the participant
@@ -44,6 +59,7 @@ class Profile extends Component {
             level: null, // var for specific level 
             task: null, // var for what type of task ( musical / paint )
             renderLiveChart: false,
+            shouldRedirect:redirect
 
         }
 
@@ -249,11 +265,12 @@ class Profile extends Component {
 
 
     render() {
-        // only show component when data is ready to be passed 
+        // only show component when data is ready to be passed
+        var ComponentLoaded = null 
         if (this.state.dataForChart == null) {
             // a loading icon animation will show if the data is null 
-            var ComponentLoaded =
-                <div class="container">
+             ComponentLoaded =
+                <div className="container">
                     <ClipLoader css={override} size={150} color={"#123abc"} loading={this.state.loading} />
 
                 </div>
@@ -264,11 +281,11 @@ class Profile extends Component {
                 <LiveChart data={this.state.dataForChart} label={this.state.numPoints} text={this.state.title_Text} name={this.state.name} id={this.state.id} run={this.state.run} task={this.state.task} level={this.state.level} />
                 : <br />
 
-            var ComponentLoaded =
+            ComponentLoaded =
                 <div id="navbar">
 
                     <Navbar />
-                    <div class="container">
+                    <div className="container">
 
                         <div className='float-right'>
 
@@ -276,22 +293,22 @@ class Profile extends Component {
 
                         </div>
 
-                        <div class="body" className='profile-body-padding'>
+                        <div className="body" className='profile-body-padding'>
 
                             {/* Brooke and stuart cards start */}
 
 
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-7 col-md-12">
-                                    <div class="card-profile">
-                                        <div class="body">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-12">
-                                                    <div class="float-md-right"> <img src={person_icon} width="60" height="60" alt="" /> </div>
+                            <div className="row">
+                                <div className="col-xl-6 col-lg-7 col-md-12">
+                                    <div className="card-profile">
+                                        <div className="body">
+                                            <div className="row">
+                                                <div className="col-lg-4 col-md-4 col-12">
+                                                    <div className="float-md-right"> <img src={person_icon} width="60" height="60" alt="" /> </div>
                                                 </div>
-                                                <div class="col-lg-8 col-md-8 col-12">
+                                                <div className="col-lg-8 col-md-8 col-12">
                                                     <h4><strong>  {this.state.data.name} </strong></h4>
-                                                    <span class="details">Age: {this.state.data.age} </span>
+                                                    <span className="details">Age: {this.state.data.age} </span>
 
                                                 </div>
                                             </div>
@@ -301,16 +318,16 @@ class Profile extends Component {
                             </div>
 
 
-                            <div class="row">
+                            <div className="row">
                                 {
                                     // return levels and highest score in list, scroll enabled
                                     Object.entries(this.state.cardData).map(function ([index, task]) {
 
-                                        return <div class="col col-md-6">
-                                            <div class="card-task" >
+                                        return <div className="col col-md-6">
+                                            <div className="card-task" >
                                                 <h1 style={{ borderBottom: "4px solid black" }}>{task.title} <img src={task.taskIcon} width="50" height="50" alt="" /> </h1>
-                                                <div class="row_2">
-                                                    <div class="column">
+                                                <div className="row_2">
+                                                    <div className="column">
                                                         <h4>Levels Completed: </h4>
                                                         <p style={{ fontStyle: "italic" }}>Highest scores per level included</p>
                                                         {task.conditionalText}
@@ -328,10 +345,10 @@ class Profile extends Component {
                                                         </ul>
 
                                                     </div>
-                                                    <div class='display-type-flex'>
+                                                    <div className='display-type-flex'>
                                                         <h5>Rank : {task.rankInTask}</h5>
                                                     </div>
-                                                    <div class='display-type-flex'>
+                                                    <div className='display-type-flex'>
                                                         <h5>Highest Level Achieved: {task.highestLevel}</h5>
                                                     </div>
                                                 </div>
@@ -395,6 +412,10 @@ class Profile extends Component {
 
             <div style={{ paddingBottom: "50px" }}>
                 {/* Place components in this page within the "else" conditional statement above */}
+                
+                {/* if token is not set in local storage redirect the user to login page */}
+                {this.state.shouldRedirect? (window.location = "/login"): null}
+                
                 {ComponentLoaded}
 
             </div>

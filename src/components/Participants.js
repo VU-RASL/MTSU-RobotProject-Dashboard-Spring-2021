@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "./Table";
 
@@ -8,14 +8,8 @@ function Participants() {
   // here you set a state to tell the component it need to wait
   //  until the result is fetched from the api
   const [loadingData, setLoadingData] = useState(true);
-
-
-
-
-  const [mydata, setData] = useState();
-  const [mycols, setCols] = useState();
   const [props, setProps] = useState();
-
+ 
   useEffect(() => {
     async function getData() {
       await axios
@@ -93,9 +87,8 @@ function Participants() {
             columns: myCols,
             data: myData
           }
-          // set the Data and Cols States
-          setCols(myCols)
-          setData(myData);
+          // set the States
+          
           setProps(props);
           // you tell it that you had the result
           setLoadingData(false);

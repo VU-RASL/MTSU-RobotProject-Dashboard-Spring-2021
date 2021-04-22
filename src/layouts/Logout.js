@@ -22,7 +22,7 @@ class Logout extends Component {
             return <Redirect to='/login' push={true} />
         }
 
-        return <button type="button" class="btn btn-danger" onClick={this.logout}>Log out</button>
+        return <button type="button" className="btn btn-danger" onClick={this.logout}>Log out</button>
     }
 
 

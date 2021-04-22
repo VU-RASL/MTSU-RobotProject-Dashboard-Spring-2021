@@ -1,6 +1,6 @@
 // Barchart for names and ages
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Chart from 'chart.js'
 import 'chartjs-plugin-streaming';
 import io from 'socket.io-client'
@@ -247,8 +247,6 @@ class LiveChart extends Component {
   // add random data to chart every 5 seconds from server 
   addDataRandom(chart, label, data) {
 
-    var lenOfArray = this.state.label.length
-    var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
     chart.data.labels.push(label);
 
     chart.data.datasets.forEach((dataset) => {

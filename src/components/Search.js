@@ -39,10 +39,10 @@ const renderSuggestion = suggestion => (
 
 
 
-// place icon in search bar here
+// place image icon in search bar here
 const renderInputComponent = inputProps => (
   <div className="inputContainer">
-    <img className="icon" src={icon} />
+    <img className="icon" src={icon} alt="" />
     <input {...inputProps} />
   </div>
 );

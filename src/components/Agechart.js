@@ -14,7 +14,7 @@ class Agechart extends Component {
 
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         this.getChartData();
 

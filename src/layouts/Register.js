@@ -71,37 +71,35 @@ class Register extends Component {
         return (
 
             <div style={{ backgroundColor: "#d0d0ce" }}>
-                <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
-                    <div class="container">
-                        <div class="card login-card">
-                            <div class="row no-gutters">
-                                <div class="col-md-5">
-                                    <img src={pic} alt="login" class="login-card-img" />
+                <main className="d-flex align-items-center min-vh-100 py-3 py-md-0">
+                    <div className="container">
+                        <div className="card login-card">
+                            <div className="row no-gutters">
+                                <div className="col-md-5">
+                                    <img src={pic} alt="login" className="login-card-img" />
 
                                 </div>
 
-                                <div class="col-md-7">
-                                    <div class="card-body">
-                                        <div class="brand-wrapper">
-                                            <img src={logo} alt="logo" class="logo" />
+                                <div className="col-md-7">
+                                    <div className="card-body">
+                                        <div className="brand-wrapper">
+                                            <img src={logo} alt="logo" className="logo" />
                                         </div>
-                                        <p class="login-card-description">Register</p>
+                                        <p className="login-card-description">Register</p>
 
                                         {this.state.message ? <p style={{ color: 'red' }}>{this.state.message}</p> : null}
 
                                         <form onSubmit={this.onSubmit}>
-                                            <div class="form-group">
-                                                <label for="email" class="sr-only">Username</label>
-                                                <input type="text" name="username" onChange={this.changeUsername} value={this.state.username} id="username" class="form-control" placeholder="Username" />
+                                            <div className="form-group">
+                                                <label for="email" className="sr-only">Username</label>
+                                                <input type="text" name="username" onChange={this.changeUsername} value={this.state.username} id="username" className="form-control" placeholder="Username" />
                                             </div>
-                                            <div class="form-group mb-4">
-                                                <label for="password" class="sr-only">Password</label>
-                                                <input type="password" name="password" onChange={this.changePassword} value={this.state.password} id="password" class="form-control" placeholder="password" />
+                                            <div className="form-group mb-4">
+                                                <label for="password" className="sr-only">Password</label>
+                                                <input type="password" name="password" onChange={this.changePassword} value={this.state.password} id="password" className="form-control" placeholder="password" />
                                             </div>
-                                            <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Register" />
+                                            <input name="login" id="login" className="btn btn-block login-btn mb-4" type="submit" value="Register" />
                                         </form>
-
-
 
                                     </div>
                                 </div>

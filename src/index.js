@@ -1,6 +1,7 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom';
 import './layouts/css/index.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import App from './App';
 
 
