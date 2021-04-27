@@ -135,7 +135,6 @@ class Profile extends Component {
                     disableRunDropdown: [],
                     selectedRun: '',
                     selectedRunValue: '',
-                    highestScoreOfLevel: '',
                     cardData: cardData
 
                 })
@@ -206,10 +205,8 @@ class Profile extends Component {
         newState.selectedRun = '';
         newState.selectedRunValue = '';
         newState.renderLiveChart = false;
-        newState.highestScoreOfLevel = '';
-
-        document.getElementById('highestScoreOfLevel').innerHTML = '';
-
+        
+        
         await this.setState(Object.assign({ ...newState }));
     }
 
@@ -236,7 +233,7 @@ class Profile extends Component {
         newState.renderLiveChart = false;
 
         const highScore = newState.data[newState.selectedTaskValue].highest_scores_per_level[level];
-        document.getElementById('highestScoreOfLevel').innerHTML = '<b>Highest Score of Level: ' + highScore + '</b>';
+        
 
         await this.setState(Object.assign({ ...newState }));
     }
@@ -381,7 +378,7 @@ class Profile extends Component {
                                         onChange={this.handleLevelChange.bind(this)}
                                     />
 
-                                    <div id='highestScoreOfLevel'></div>
+                                    
                                 </div>
                                 <div className='select-style'>
                                     <div>Select Run: </div>
