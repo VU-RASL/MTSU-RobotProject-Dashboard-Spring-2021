@@ -34,14 +34,14 @@ class Profile extends Component {
 
 
         // check if user has token before showing data, if no token redirect to login page
-    var redirect
-    if (localStorage.getItem("token") ){
+        var redirect
+        if (localStorage.getItem("token")) {
 
-        redirect = false
-    }else{
+            redirect = false
+        } else {
 
-      redirect = true
-    }
+            redirect = true
+        }
 
 
 
@@ -59,7 +59,7 @@ class Profile extends Component {
             level: null, // var for specific level 
             task: null, // var for what type of task ( musical / paint )
             renderLiveChart: false,
-            shouldRedirect:redirect
+            shouldRedirect: redirect
 
         }
 
@@ -90,7 +90,7 @@ class Profile extends Component {
                             label: key,
                             value: key
                         });
-
+                        // add the individual tasks data dynamically, so later if any other task is added it pops up directly
                         cardData.push({
                             task: key,
                             title: this.getCardTitle(key),
@@ -165,6 +165,7 @@ class Profile extends Component {
     }
 
     getRankForTask(id, task) {
+        // returns the rank of a participant for a particular task
         var rankVariable = task + '_rank';
         var participants = JSON.parse(sessionStorage.getItem('participants'));
 
@@ -182,6 +183,7 @@ class Profile extends Component {
     // handled proper state update with async await, not an ideal way but need to figure a better a better solution
 
     async handleTaskChange(e) {
+        // after task selection, enable levels dropdown with approriate values
         const newState = { ...this.state };
         const task = e.value;
         const levels = this.state.data[task].level_history_data
@@ -205,12 +207,13 @@ class Profile extends Component {
         newState.selectedRun = '';
         newState.selectedRunValue = '';
         newState.renderLiveChart = false;
-        
-        
+
+
         await this.setState(Object.assign({ ...newState }));
     }
 
     async handleLevelChange(e) {
+        // after level selection, enable runs dropdown with approriate values
         const newState = { ...this.state };
         const level = e.value;
 
@@ -233,12 +236,13 @@ class Profile extends Component {
         newState.renderLiveChart = false;
 
         const highScore = newState.data[newState.selectedTaskValue].highest_scores_per_level[level];
-        
+
 
         await this.setState(Object.assign({ ...newState }));
     }
 
     async handleRunChange(e) {
+        // once all the task, level and run selection is done, we display the live chart with the appropriate data
         const newState = { ...this.state };
 
         newState.selectedRun = e;
@@ -263,10 +267,10 @@ class Profile extends Component {
 
     render() {
         // only show component when data is ready to be passed
-        var ComponentLoaded = null 
+        var ComponentLoaded = null
         if (this.state.dataForChart == null) {
             // a loading icon animation will show if the data is null 
-             ComponentLoaded =
+            ComponentLoaded =
                 <div className="container">
                     <ClipLoader css={override} size={150} color={"#123abc"} loading={this.state.loading} />
 
@@ -318,6 +322,7 @@ class Profile extends Component {
                             <div className="row">
                                 {
                                     // return levels and highest score in list, scroll enabled
+                                    // Cards are rendered dynamically from cardData variable
                                     Object.entries(this.state.cardData).map(function ([index, task]) {
 
                                         return <div className="col col-md-6">
@@ -355,11 +360,12 @@ class Profile extends Component {
                                 }
                                 {/*{cardData}*/}
                             </div>
-                            {/* Brooke and stuart cards end */}
+                            {/* Task details cards end */}
 
                             <br />
                             <div className='display-flex'>
                                 <div className='select-style'>
+                                    {/* Dropdown to select task */}
                                     <div>Select Task: </div>
                                     <Select
                                         options={this.state.tasksData}
@@ -370,6 +376,7 @@ class Profile extends Component {
                                     />
                                 </div>
                                 <div className='select-style'>
+                                    {/* Dropdown to select level for the selected task */}
                                     <div>Select Level: </div>
                                     <Select
                                         options={this.state.levelData}
@@ -378,9 +385,10 @@ class Profile extends Component {
                                         onChange={this.handleLevelChange.bind(this)}
                                     />
 
-                                    
+
                                 </div>
                                 <div className='select-style'>
+                                    {/* Dropdown to select run for selected level of a task */}
                                     <div>Select Run: </div>
                                     <Select
                                         options={this.state.runData}
@@ -409,10 +417,10 @@ class Profile extends Component {
 
             <div style={{ paddingBottom: "50px" }}>
                 {/* Place components in this page within the "else" conditional statement above */}
-                
+
                 {/* if token is not set in local storage redirect the user to login page */}
-                {this.state.shouldRedirect? (window.location = "/login"): null}
-                
+                {this.state.shouldRedirect ? (window.location = "/login") : null}
+
                 {ComponentLoaded}
 
             </div>
