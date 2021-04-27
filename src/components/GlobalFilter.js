@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAsyncDebounce } from 'react-table';
 
+// Fiter component used for filtering the table data
 export const GlobalFilter = ({ filter, setFilter }) => {
     const [value, setValue] = useState(filter);
 
