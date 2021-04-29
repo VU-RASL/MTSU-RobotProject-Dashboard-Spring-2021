@@ -141,7 +141,7 @@ class Login extends Component {
                     </div>
                 </main>
 
-
+                {/* if redirect is set to true( login success) take the user to dashboard, else(login fail) remain on the login page */}
                 { this.state.redirect ? (window.location = "/") : null}
 
 

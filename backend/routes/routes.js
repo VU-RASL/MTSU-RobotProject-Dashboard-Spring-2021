@@ -7,7 +7,8 @@ const mongoose = require('mongoose')
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/vanderbilt_dashboard";
 
-// will need to move this to env variable in future
+// will need to move this to env variable in future, this is the jwt secret that gets 
+// attached to all tokens when register/login on site 
 const JWT_SECRET = 'sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhfjk'
 
 
@@ -44,7 +45,7 @@ const verifyJWT = (req,res,next) =>{
 	
 	}
 
-// Routes
+
 
 // signup page
 router.post('/signup', async (request,response) =>{
@@ -156,15 +157,15 @@ router.post('/username', async (req, res) => {
 			
 				if (err ) {
 					res.json({ status: 'not found '})
-					//res.render('public-profile', { messages: { error: ['User not found'] } });
+					
 				}
 				else
 				{
 					res.json({data: results})
-					//res.render('login', { ...results, username });
+					
 				}
 				
-				//res.render('public-profile', { ...results, username });
+				
 			  });
 			})
 		}

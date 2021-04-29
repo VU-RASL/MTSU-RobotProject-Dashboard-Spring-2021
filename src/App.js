@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './layouts/Home';
 
-
+// routes for application placed in this file 
 
 
 function App() {
@@ -28,10 +28,6 @@ function App() {
 
           </Route>
 
-          <Route exact path="/test">
-
-
-          </Route>
 
           <Route exact path="/participant_profile" component={Profile}>
 

@@ -107,6 +107,7 @@ class Register extends Component {
                         </div>
                     </div>
                 </main>
+                {/* if redirect is set to true( register success) take the user to login page , else(register fail) remain on the register page */}
 
                 { this.state.redirect ? (window.location = "/login") : null}
 

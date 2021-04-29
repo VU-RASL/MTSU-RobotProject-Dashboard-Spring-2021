@@ -1,4 +1,7 @@
 // Barchart for names and ages
+// documentaion for how to use react-chartjs-2 (https://github.com/reactchartjs/react-chartjs-2 )
+// live code examples (https://reactchartjs.github.io/react-chartjs-2/#/)
+// documentaion for chart js (https://www.chartjs.org/docs/latest/)
 
 import { Component } from 'react';
 import { Bar } from 'react-chartjs-2'
@@ -16,12 +19,13 @@ class Agechart extends Component {
 
     componentDidMount() {
 
-        this.getChartData();
+        this.getChartData(); // get data before build chart 
 
     }
 
 
     getChartData() {
+        // create 2 arrays to hold values will later use to construct the data points on chart
         let names = [];
         let ages = [];
         axios
@@ -65,7 +69,8 @@ class Agechart extends Component {
 
                     ]
                 }
-
+                
+                // set this chart data to state 
                 this.setState({ chartData: mychartData })
             }).catch(err => {
 

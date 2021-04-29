@@ -36,7 +36,7 @@ class RequestTest extends React.Component {
 
      return (
        <div>
-         {/* Below you can test out the diff types of data coming from the backend to see */}
+         {/* Below you can test out the diff types of data coming from the backend */}
            <div> {this.state.data.name} </div>
            <div> {this.state.data.musical_task_data.highest_level_played} </div>
 

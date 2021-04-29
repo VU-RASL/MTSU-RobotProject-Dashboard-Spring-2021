@@ -1,7 +1,11 @@
 // bar chart for names and highest level reached
+// documentaion for how to use react-chartjs-2 (https://github.com/reactchartjs/react-chartjs-2 )
+// live code examples (https://reactchartjs.github.io/react-chartjs-2/#/)
+// documentaion for chart js (https://www.chartjs.org/docs/latest/)
+
+
 import { Component } from 'react';
 import { Bar } from 'react-chartjs-2'
-//import * as pluginAnnotation from 'chartjs-plugin-annotation'
 import axios from 'axios'
 
 class HighestLvlChart extends Component {
@@ -19,6 +23,7 @@ class HighestLvlChart extends Component {
 
 
     getChartData() {
+          // create 2 arrays to hold values will later use to construct the data points on chart
         let names = [];
         let rank = [];
         axios.get('http://localhost:4000/app/data').then(res => {
@@ -97,8 +102,7 @@ class HighestLvlChart extends Component {
                             }]
                         },
                         plugins: {
-                            // still need to figure out how to add plugins for the chart
-                            // pluginAnnotation would go here 
+                          
                         }
 
                     }}

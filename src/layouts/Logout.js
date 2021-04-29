@@ -9,7 +9,8 @@ class Logout extends Component {
         navigate: false
     }
 
-
+    // clear the token and set navigation to true to redirect user to login page.
+    // user should only be able to view site if they have a token in local storage
     logout = () => {
         sessionStorage.clear();
         localStorage.clear("token")

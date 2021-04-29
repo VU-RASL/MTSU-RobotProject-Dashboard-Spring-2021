@@ -27,7 +27,9 @@ const io = require('socket.io')(server, {
   }
 });
 
-// connect to mongo replicaset
+// connect to mongo replicaset be sure to name the replica set for you database "rs1"
+// if you want to change the default name 
+// of replica set you can change the name by replacing "rs1" in string below 
 const url = 'mongodb://localhost:27017/?replicaSet=rs1';
 
 MongoClient.connect(url, function (err, client) {
@@ -37,8 +39,6 @@ MongoClient.connect(url, function (err, client) {
     throw err;
   }
 
-
-  console.log("connected to new Mongo")
   // connect to database
   const db = client.db('vanderbilt_dashboard');
 
@@ -47,30 +47,19 @@ MongoClient.connect(url, function (err, client) {
 
   // when socket is connected will run function below
   io.sockets.on('connection', (socket) => {
-    //console.log('socket io connected');
 
+
+    // example of Mongodb change stream usage :
+    // ( https://docs.mongodb.com/drivers/node/usage-examples/changeStream/)
+
+    
     // watch for changes on the participants collection
     db.collection('participants').watch().on('change', (change) => {
 
       switch (change.operationType) {
         case "update":
 
-          // the response if you console.log(change) looks like this....
-          /*
-            {
-      _id: {
-        _data: '82606E29C9000000012B022C0100296E5A10043BCBE2C5EDFF4610BC92829C7E04052946645F696400646055E92EB18BA1D7429DC93B0004'
-      },
-      operationType: 'update',
-      clusterTime: Timestamp { _bsontype: 'Timestamp', low_: 1, high_: 1617832393 },
-      ns: { db: 'vanderbilt_dashboard', coll: 'participants' },
-      documentKey: { _id: 6055e92eb18ba1d7429dc93b },
-      updateDescription: {
-        updatedFields: { 'musical_task_data.level_history_data.level_1.run_1.168': 0.11 },
-        removedFields: []
-      }
-    }
-          */
+     
           // get the id of the user where change happens
           var id_check = change.documentKey._id
           // grab the field that changed
@@ -96,8 +85,6 @@ MongoClient.connect(url, function (err, client) {
 
 
 });
-
-
 
 
 

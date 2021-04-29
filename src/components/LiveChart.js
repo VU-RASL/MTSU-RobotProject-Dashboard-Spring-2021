@@ -1,4 +1,6 @@
-// Barchart for names and ages
+// line chart that shows realtime updates from mongodb. this component by default will add random 
+// data being emited from server in backend to the chart. Follow instructions below for how to demo 
+// real time data updates from mongodb
 
 import { Component } from 'react';
 import Chart from 'chart.js'
@@ -99,18 +101,22 @@ class LiveChart extends Component {
 
 
 
-      /* uncomment when want to see live updates from mongodb 
-      // check if the the current state chart matches the updates coming from mongodb
-      var lenOfArray = this.state.label.length 
-      var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
-      var match = res.data.hasOwnProperty(resProp)
-      */
+      
 
-
+      // the code below will add random points emitted from backend server to chart, to demo the 
+      // real time data coming from mongo you should comment out code right below this comment
+      // and uncomment the large commented blocks below.
       this.addDataRandom(this.state.chart, num, res)
 
 
       /* uncomment when want to see live updates from mongodb 
+
+      // check if the the current state chart matches the updates coming from mongodb
+      var lenOfArray = this.state.label.length 
+      var resProp = this.state.task + ".level_history_data." + this.state.level + "." + this.state.run + "." + (lenOfArray)
+      var match = res.data.hasOwnProperty(resProp)
+      
+
        if (this.props.id === res.id && match === true){
         this.addData(this.state.chart,num,res)
        }
@@ -203,7 +209,7 @@ class LiveChart extends Component {
 
   }
 
-  // might not be needed will examine later..
+  
   componentWillUnmount() {
     this.setState({
       data: null,
@@ -258,7 +264,7 @@ class LiveChart extends Component {
   }
 
 
-
+// function that replaces data on chart with new plots. 
   updateChartData(chart, data, dataSetIndex) {
     chart.data.datasets[dataSetIndex].data = data;
     chart.update()
