@@ -20,5 +20,7 @@ Run this command in both the root and backend directories.
 ### `npm start`
 You will need to execute the commands npm start in both the root directory and backend directory to start the program.
 
+**Note You will need to register for account in application before you can view the contents within it
+
 
 
