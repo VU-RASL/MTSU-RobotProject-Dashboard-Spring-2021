@@ -5,8 +5,8 @@
 
 - Install MongoDB 4.4 Community Edition ( https://docs.mongodb.com/manual/administration/install-community/ ) 
 Read these documents in the root of repository on how to setup Mongo replica set and add the seed data file.
-- How to setup replicaSet Mongo
-- How to add seed file to mongodb
+- [How to setup replicaSet Mongo](https://github.com/VU-RASL/MTSU-RobotProject-Dashboard-Spring-2021/blob/main/How%20to%20setup%20replicaSet%20Mongo)
+- [How to add seed file to Mongo](https://github.com/VU-RASL/MTSU-RobotProject-Dashboard-Spring-2021/blob/main/How%20to%20add%20seed%20file%20to%20mongodb)
 
 # How to run Dashboard application 
 In the project directory, you can run:
